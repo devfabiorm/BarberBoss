@@ -7,4 +7,16 @@ public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
     {
         throw new NotImplementedException();
     }
+
+    private void Validate(RequestInvoiceJson request)
+    {
+        var validator = new InvoiceValidator();
+
+        var result = validator.Validate(request);
+
+        if (!result.IsValid)
+        {
+            //throw an exception
+        }
+    }
 }

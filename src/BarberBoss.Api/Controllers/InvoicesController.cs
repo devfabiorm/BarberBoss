@@ -1,4 +1,6 @@
-﻿using BarberBoss.Application.UseCases.Invoices.Register;
+﻿using BarberBoss.Application.UseCases.Invoices.GetAll;
+using BarberBoss.Application.UseCases.Invoices.GetById;
+using BarberBoss.Application.UseCases.Invoices.Register;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +20,21 @@ public class InvoicesController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(ResponseInvoicesJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public IActionResult GetAll([FromServices] IGetAllInvoicesUseCase useCase)
+    {
+        var response = useCase.Execute();
+        return Ok(response);
+    }
+
+    [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseInvoiceJson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetById([FromRoute] long id)
+    public IActionResult GetById([FromServices] IGetInvoiceByIdUseCase useCase, [FromRoute] long id)
     {
-        return Ok();
+        var response = useCase.Execute(id);
+        return Ok(response);
     }
 }

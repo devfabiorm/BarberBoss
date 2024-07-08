@@ -12,7 +12,7 @@ public class InvoicesController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public IActionResult Register([FromServices] IRegisterInvoiceUseCase useCase, [FromBody] RequestRegisterInvoiceJson request)
+    public IActionResult Register([FromServices] IRegisterInvoiceUseCase useCase, [FromBody] RequestInvoiceJson request)
     {
         var response = useCase.Execute(request);
 
@@ -37,4 +37,23 @@ public class InvoicesController : ControllerBase
         var response = useCase.Execute(id);
         return Ok(response);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult Update([FromRoute] long id, [FromBody] RequestInvoiceJson request)
+    {
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult Delete([FromRoute] long id) 
+    {
+        return NoContent();
+    }
+
 }

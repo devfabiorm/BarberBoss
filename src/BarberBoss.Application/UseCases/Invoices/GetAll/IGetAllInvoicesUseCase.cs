@@ -3,5 +3,5 @@
 namespace BarberBoss.Application.UseCases.Invoices.GetAll;
 public interface IGetAllInvoicesUseCase
 {
-    ResponseInvoicesJson Execute();
+    Task<ResponseInvoicesJson> Execute();
 }

@@ -3,5 +3,5 @@
 namespace BarberBoss.Application.UseCases.Invoices.GetById;
 public interface IGetInvoiceByIdUseCase
 {
-    ResponseInvoiceJson? Execute(long id);
+    Task<ResponseInvoiceJson?> Execute(long id);
 }

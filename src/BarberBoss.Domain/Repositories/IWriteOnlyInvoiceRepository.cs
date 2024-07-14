@@ -4,4 +4,5 @@ namespace BarberBoss.Domain.Repositories;
 public interface IWriteOnlyInvoiceRepository
 {
     Task Create(Invoice invoice);
+    Task<bool> Delete(long id);
 }

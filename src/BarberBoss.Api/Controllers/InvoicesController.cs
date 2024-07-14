@@ -1,6 +1,8 @@
-﻿using BarberBoss.Application.UseCases.Invoices.GetAll;
+﻿using BarberBoss.Application.UseCases.Invoices.Delete;
+using BarberBoss.Application.UseCases.Invoices.GetAll;
 using BarberBoss.Application.UseCases.Invoices.GetById;
 using BarberBoss.Application.UseCases.Invoices.Register;
+using BarberBoss.Application.UseCases.Invoices.Update;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,7 @@ public class InvoicesController : ControllerBase
     public IActionResult GetById([FromServices] IGetInvoiceByIdUseCase useCase, [FromRoute] long id)
     {
         var response = useCase.Execute(id);
+
         return Ok(response);
     }
 
@@ -42,8 +45,10 @@ public class InvoicesController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult Update([FromRoute] long id, [FromBody] RequestInvoiceJson request)
+    public async Task<IActionResult> Update([FromServices] IInvoiceUpdateUseCase useCase, [FromRoute] long id, [FromBody] RequestInvoiceJson request)
     {
+        await useCase.Execute(id, request);
+
         return NoContent();
     }
 
@@ -51,8 +56,10 @@ public class InvoicesController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult Delete([FromRoute] long id) 
+    public async Task<IActionResult> Delete([FromServices] IDeleteInvoiceUseCase useCase, [FromRoute] long id) 
     {
+        await useCase.Execute(id);
+
         return NoContent();
     }
 

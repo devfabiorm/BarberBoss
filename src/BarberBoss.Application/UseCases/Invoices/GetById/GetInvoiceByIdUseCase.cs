@@ -1,19 +1,28 @@
-﻿using BarberBoss.Communication.Responses;
+﻿using AutoMapper;
+using BarberBoss.Communication.Responses;
 using BarberBoss.Domain.Repositories;
 
 namespace BarberBoss.Application.UseCases.Invoices.GetById;
 internal class GetInvoiceByIdUseCase : IGetInvoiceByIdUseCase
 {
     private readonly IReadOnlyInvoiceRepository _repository;
+    private readonly IMapper _mapper;
 
-    public GetInvoiceByIdUseCase(IReadOnlyInvoiceRepository repository)
+    public GetInvoiceByIdUseCase(IReadOnlyInvoiceRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<ResponseInvoiceJson?> Execute(long id)
     {
         var invoice = await _repository.GetById(id);
-        return new ResponseInvoiceJson { Title = "Test" };
+
+        if (invoice is null) 
+        { 
+            //Throw exception
+        }
+
+        return _mapper.Map<ResponseInvoiceJson>(invoice);
     }
 }

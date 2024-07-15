@@ -1,14 +1,17 @@
-﻿using BarberBoss.Communication.Requests;
+﻿using AutoMapper;
+using BarberBoss.Communication.Requests;
 using BarberBoss.Domain.Repositories;
 
 namespace BarberBoss.Application.UseCases.Invoices.Update;
 public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
 {
     private readonly IUpdateOnlyInvoiceRepository _repository;
+    private readonly IMapper _mapper;
 
-    public InvoiceUpdateUseCase(IUpdateOnlyInvoiceRepository repository)
+    public InvoiceUpdateUseCase(IUpdateOnlyInvoiceRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task Execute(long id, RequestInvoiceJson request)
@@ -22,7 +25,7 @@ public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
             //throw exception
         }
 
-        //do mapping
+        _mapper.Map(request, invoice);
 
         _repository.Update(invoice);
     }

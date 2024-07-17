@@ -1,6 +1,6 @@
 ﻿using BarberBoss.Domain.Entities;
 
-namespace BarberBoss.Domain.Repositories;
+namespace BarberBoss.Domain.Repositories.Invoices;
 public interface IWriteOnlyInvoiceRepository
 {
     Task Create(Invoice invoice);

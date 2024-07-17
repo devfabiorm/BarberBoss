@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BarberBoss.Communication.Responses;
-using BarberBoss.Domain.Repositories;
+using BarberBoss.Domain.Repositories.Invoices;
 
 namespace BarberBoss.Application.UseCases.Invoices.GetById;
 internal class GetInvoiceByIdUseCase : IGetInvoiceByIdUseCase

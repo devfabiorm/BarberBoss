@@ -1,4 +1,4 @@
-﻿using BarberBoss.Domain.Repositories;
+﻿using BarberBoss.Domain.Repositories.Invoices;
 using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;

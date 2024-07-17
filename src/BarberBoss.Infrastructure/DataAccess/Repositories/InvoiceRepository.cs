@@ -1,5 +1,5 @@
 ﻿using BarberBoss.Domain.Entities;
-using BarberBoss.Domain.Repositories;
+using BarberBoss.Domain.Repositories.Invoices;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberBoss.Infrastructure.DataAccess.Repositories;

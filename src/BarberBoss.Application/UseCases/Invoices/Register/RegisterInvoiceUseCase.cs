@@ -4,6 +4,7 @@ using BarberBoss.Communication.Responses;
 using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Invoices;
+using BarberBoss.Exception;
 
 namespace BarberBoss.Application.UseCases.Invoices.Register;
 public class RegisterInvoiceUseCase : IRegisterInvoiceUseCase
@@ -39,7 +40,7 @@ public class RegisterInvoiceUseCase : IRegisterInvoiceUseCase
 
         if (!result.IsValid) 
         { 
-            //throw an exception
+            throw new ErrorOnValidationException(result.Errors.Select(error => error.ErrorMessage).ToList());
         }
     }
 }

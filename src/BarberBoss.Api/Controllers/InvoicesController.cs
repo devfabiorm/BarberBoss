@@ -14,6 +14,7 @@ public class InvoicesController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public IActionResult Register([FromServices] IRegisterInvoiceUseCase useCase, [FromBody] RequestInvoiceJson request)
     {
         var response = useCase.Execute(request);
@@ -45,6 +46,7 @@ public class InvoicesController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Update([FromServices] IInvoiceUpdateUseCase useCase, [FromRoute] long id, [FromBody] RequestInvoiceJson request)
     {
         await useCase.Execute(id, request);

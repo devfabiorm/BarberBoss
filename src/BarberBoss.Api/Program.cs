@@ -1,3 +1,4 @@
+using BarberBoss.Api.Filters;
 using BarberBoss.Application;
 using BarberBoss.Infrastructure;
 
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

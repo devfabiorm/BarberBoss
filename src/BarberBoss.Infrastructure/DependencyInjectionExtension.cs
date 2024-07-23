@@ -1,4 +1,5 @@
-﻿using BarberBoss.Domain.Repositories.Invoices;
+﻿using BarberBoss.Domain.Repositories;
+using BarberBoss.Domain.Repositories.Invoices;
 using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IWriteOnlyInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IReadOnlyInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IUpdateOnlyInvoiceRepository, InvoiceRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)

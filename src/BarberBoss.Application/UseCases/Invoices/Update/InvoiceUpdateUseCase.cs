@@ -3,6 +3,7 @@ using BarberBoss.Communication.Requests;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Invoices;
 using BarberBoss.Exception;
+using BarberBoss.Exception.Messages;
 
 namespace BarberBoss.Application.UseCases.Invoices.Update;
 public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
@@ -26,7 +27,7 @@ public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
 
         if (invoice is null) 
         {
-            throw new NotFoundException("Invoice could not be found in database.");
+            throw new NotFoundException(ResourceErrorMessages.INVOICE_NOT_FOUND);
         }
 
         _mapper.Map(request, invoice);

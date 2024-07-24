@@ -5,4 +5,5 @@ public interface IReadOnlyInvoiceRepository
 {
     Task<Invoice?> GetById(long id);
     Task<IList<Invoice>> GetAll();
+    Task<List<Invoice>> FilterByMonth(DateOnly date);
 }

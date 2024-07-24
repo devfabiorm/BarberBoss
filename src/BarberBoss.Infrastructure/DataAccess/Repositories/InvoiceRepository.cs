@@ -57,4 +57,20 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
     {
         _dbContext.Invoices.Update(invoice);
     }
+
+    public async Task<List<Invoice>> FilterByMonth(DateOnly date)
+    {
+        var startDate = new DateTime(year: date.Year, month: date.Month, day: 01, hour: 0, minute: 0, second: 0);
+
+        var daysInMonth = DateTime.DaysInMonth(year: date.Year, month: date.Month);
+        var endDate = new DateTime(year: date.Year, month: date.Month, day: daysInMonth, hour: 23, minute: 59, second: 59);
+
+        return await _dbContext
+            .Invoices
+            .AsNoTracking()
+            .Where(invoice => invoice.Date >= startDate && invoice.Date <= endDate)
+            .OrderBy(invoice => invoice.Date)
+            .ThenBy(invoice => invoice.Title)
+            .ToListAsync();
+    }
 }

@@ -124,6 +124,15 @@ namespace BarberBoss.Domain.Reports {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invoices for.
+        /// </summary>
+        public static string INVOICES_FOR {
+            get {
+                return ResourceManager.GetString("INVOICES_FOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment Type.
         /// </summary>
         public static string PAYMENT_TYPE {

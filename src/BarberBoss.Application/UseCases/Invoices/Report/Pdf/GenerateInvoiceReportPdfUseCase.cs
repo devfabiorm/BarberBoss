@@ -3,15 +3,13 @@ using BarberBoss.Domain.Reports;
 using BarberBoss.Domain.Repositories.Invoices;
 using MigraDoc.DocumentObjectModel;
 using PdfSharp.Fonts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace BarberBoss.Application.UseCases.Invoices.Report.Pdf;
 public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 {
+    private const string CURRENT_CURRENCY = "R$";
+
     private readonly IReadOnlyInvoiceRepository _repository;
 
     public GenerateInvoiceReportPdfUseCase(IReadOnlyInvoiceRepository repository)
@@ -23,15 +21,55 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 
     public async Task<byte[]> Execute(DateOnly date)
     {
-        var expenses = await _repository.FilterByMonth(date);
+        var invoices = await _repository.FilterByMonth(date);
 
-        if (expenses.Count == 0) 
+        if (invoices.Count == 0) 
         {
             return [];
         }
 
         var document = CreateDocument(date);
         var page = CreatePage(document);
+
+        CreateHeaderWithProfilePhotoAndName(page);
+
+        var totalInvoices = invoices
+            .Where(invoice => invoice.Date.DayOfWeek >= DayOfWeek.Sunday && invoice.Date.DayOfWeek <= DayOfWeek.Saturday)
+            .Sum(invoice => invoice.Amount);
+        CreateTotalProfitSection(page, totalInvoices);
+
+        return [];
+    }
+
+    private void CreateTotalProfitSection(Section page, decimal totalInvoices)
+    {
+        var paragraph = page.AddParagraph();
+        paragraph.Format.SpaceBefore = paragraph.Format.SpaceAfter = 40;
+
+        paragraph.AddFormattedText(ResourceReportGenerationMessages.PROFIT_OF_THE_WEEK);
+
+        paragraph.AddLineBreak();
+
+        paragraph.AddFormattedText($"{CURRENT_CURRENCY} {totalInvoices}", new Font { Name = FontHelper.BEBAS_NEUE_REGULAR });
+    }
+
+    private void CreateHeaderWithProfilePhotoAndName(Section page)
+    {
+        var table = page.AddTable();
+        table.AddColumn();
+        table.AddColumn("300");
+
+        var row = table.AddRow();
+
+        var assembly = Assembly.GetExecutingAssembly();
+        var directoryName = Path.GetDirectoryName(assembly.Location);
+        var filePath = Path.Combine(directoryName!, "UseCases", "Invoices", "Report", "Pdf", "Logo", "BarberBossaLogo.png");
+
+        row.Cells[0].AddImage(filePath);
+
+        row.Cells[1].AddParagraph("BARBEARIA DO JOÃO");
+        row.Cells[1].Format.Font = new Font { Name = FontHelper.ROBOTO_MEDIUM, Size = 25 };
+        row.Cells[1].VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
     }
 
     private Document CreateDocument(DateOnly date)

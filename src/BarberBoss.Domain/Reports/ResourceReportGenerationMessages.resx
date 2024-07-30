@@ -147,6 +147,9 @@
   <data name="PIX" xml:space="preserve">
     <value>Pix</value>
   </data>
+  <data name="PROFIT_OF_THE_WEEK" xml:space="preserve">
+    <value>Profit of the week</value>
+  </data>
   <data name="TITLE" xml:space="preserve">
     <value>Title</value>
   </data>

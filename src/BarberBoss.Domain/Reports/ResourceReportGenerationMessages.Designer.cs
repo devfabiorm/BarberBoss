@@ -151,6 +151,15 @@ namespace BarberBoss.Domain.Reports {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profit of the week.
+        /// </summary>
+        public static string PROFIT_OF_THE_WEEK {
+            get {
+                return ResourceManager.GetString("PROFIT_OF_THE_WEEK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string TITLE {

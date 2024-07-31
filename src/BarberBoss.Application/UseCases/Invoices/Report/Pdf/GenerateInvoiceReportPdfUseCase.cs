@@ -4,12 +4,16 @@ using BarberBoss.Domain.Repositories.Invoices;
 using MigraDoc.DocumentObjectModel;
 using PdfSharp.Fonts;
 using System.Reflection;
+using MigraDoc.DocumentObjectModel.Tables;
+using BarberBoss.Domain.Extensions;
+using BarberBoss.Application.UseCases.Invoices.Report.Pdf.Colors;
+using MigraDoc.Rendering;
 
 namespace BarberBoss.Application.UseCases.Invoices.Report.Pdf;
 public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 {
     private const string CURRENT_CURRENCY = "R$";
-
+    private const int HEIGHT_ROW_EXPENSE_TABLE = 25;
     private readonly IReadOnlyInvoiceRepository _repository;
 
     public GenerateInvoiceReportPdfUseCase(IReadOnlyInvoiceRepository repository)
@@ -38,7 +42,105 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
             .Sum(invoice => invoice.Amount);
         CreateTotalProfitSection(page, totalInvoices);
 
-        return [];
+        foreach (var invoice in invoices) 
+        {
+            var table = CreateInvoiceTable(page);
+
+            var row = table.AddRow();
+            row.Height = HEIGHT_ROW_EXPENSE_TABLE;
+
+            AddInvoiceTitle(row.Cells[0], invoice.Title);
+            AddHeaderForAmount(row.Cells[3]);
+
+            row = table.AddRow();
+            row.Height = HEIGHT_ROW_EXPENSE_TABLE;
+
+            row.Cells[0].AddParagraph(invoice.Date.ToString("D"));
+            SetBaseStyleForInvoiceInformation(row.Cells[0]);
+            row.Cells[0].Format.LeftIndent = 20;
+
+            row.Cells[1].AddParagraph(invoice.Date.ToString("t"));
+            SetBaseStyleForInvoiceInformation(row.Cells[1]);
+
+            row.Cells[2].AddParagraph(invoice.PaymentType.PaymentTypeToString());
+            SetBaseStyleForInvoiceInformation(row.Cells[2]);
+
+            AddAmountForExpense(row.Cells[3], invoice.Amount);
+
+            if(!string.IsNullOrWhiteSpace(invoice.Description))
+            {
+                var descriptionRow = table.AddRow();
+                descriptionRow.Height = HEIGHT_ROW_EXPENSE_TABLE;
+
+                descriptionRow.Cells[0].AddParagraph(invoice.Description);
+                descriptionRow.Cells[0].Format.Font = new Font { Name = FontHelper.ROBOTO_REGULAR, Size = 9, Color = ColorsHelper.LIGHT_GRAY };
+                descriptionRow.Cells[0].Shading.Color = ColorsHelper.AQUA_GREEN;
+                descriptionRow.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+                descriptionRow.Cells[0].MergeRight = 2;
+                descriptionRow.Cells[0].Format.LeftIndent= 20;
+
+                row.Cells[3].MergeDown = 1;
+            }
+
+            AddWhiteSpace(table);
+        }
+
+        return RenderDocument(document);
+    }
+
+    private byte[] RenderDocument(Document document)
+    {
+        var renderer = new PdfDocumentRenderer
+        {
+            Document = document,
+        };
+
+        renderer.RenderDocument();
+
+        using var file = new MemoryStream();
+        renderer.PdfDocument.Save(file);
+
+        return file.ToArray();
+    }
+
+    private void AddWhiteSpace(Table table)
+    {
+        var row = table.AddRow();
+        row.Height = 30;
+        row.Borders.Visible = false;
+    }
+
+    private void AddAmountForExpense(Cell cell, decimal amount)
+    {
+        cell.AddParagraph($"{CURRENT_CURRENCY} {amount}");
+        cell.Format.Font = new Font { Name = FontHelper.ROBOTO_REGULAR, Size = 10, Color = ColorsHelper.BLACK };
+        cell.Shading.Color = ColorsHelper.WHITE;
+        cell.VerticalAlignment = VerticalAlignment.Top;
+    }
+
+    private void SetBaseStyleForInvoiceInformation(Cell cell)
+    {
+        cell.Format.Font = new Font { Name = FontHelper.ROBOTO_REGULAR, Size = 10, Color = ColorsHelper.BLACK };
+        cell.Shading.Color = ColorsHelper.LIGHT_GREEN;
+        cell.VerticalAlignment = VerticalAlignment.Center;
+    }
+
+    private void AddHeaderForAmount(Cell cell)
+    {
+        cell.AddParagraph(ResourceReportGenerationMessages.AMOUNT);
+        cell.Format.Font = new Font { Name = FontHelper.BEBAS_NEUE_REGULAR, Size = 15, Color = ColorsHelper.WHITE };
+        cell.Shading.Color = ColorsHelper.DARK_GREEN;
+        cell.VerticalAlignment = VerticalAlignment.Center;
+    }
+
+    private void AddInvoiceTitle(Cell cell, string invoiceTitle)
+    {
+        cell.AddParagraph(invoiceTitle);
+        cell.Format.Font = new Font { Name = FontHelper.BEBAS_NEUE_REGULAR, Size = 15, Color = ColorsHelper.WHITE };
+        cell.Shading.Color = ColorsHelper.DARKENED_DARK_GREEN;
+        cell.VerticalAlignment = VerticalAlignment.Center;
+        cell.MergeRight = 2;
+        cell.Format.LeftIndent = 20;
     }
 
     private void CreateTotalProfitSection(Section page, decimal totalInvoices)
@@ -69,7 +171,19 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 
         row.Cells[1].AddParagraph("BARBEARIA DO JOÃO");
         row.Cells[1].Format.Font = new Font { Name = FontHelper.ROBOTO_MEDIUM, Size = 25 };
-        row.Cells[1].VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+        row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
+    }
+
+    private Table CreateInvoiceTable(Section page)
+    {
+        var table = page.AddTable();
+
+        table.AddColumn("195").Format.Alignment = ParagraphAlignment.Left;
+        table.AddColumn("80").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Right;
+
+        return table;
     }
 
     private Document CreateDocument(DateOnly date)

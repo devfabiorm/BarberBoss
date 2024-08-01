@@ -21,7 +21,7 @@ public class InvoiceReportFontResolver : IFontResolver
 
     public FontResolverInfo? ResolveTypeface(string familyName, bool bold, bool italic)
     {
-        throw new NotImplementedException();
+        return new FontResolverInfo(familyName);
     }
 
     private Stream? ReadFontFile(string faceName)

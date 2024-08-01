@@ -25,7 +25,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 
     public async Task<byte[]> Execute(DateOnly date)
     {
-        var invoices = await _repository.FilterByMonth(date);
+        var invoices = await _repository.FilterByWeek(date);
 
         if (invoices.Count == 0) 
         {
@@ -38,7 +38,6 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         CreateHeaderWithProfilePhotoAndName(page);
 
         var totalInvoices = invoices
-            .Where(invoice => invoice.Date.DayOfWeek >= DayOfWeek.Sunday && invoice.Date.DayOfWeek <= DayOfWeek.Saturday)
             .Sum(invoice => invoice.Amount);
         CreateTotalProfitSection(page, totalInvoices);
 

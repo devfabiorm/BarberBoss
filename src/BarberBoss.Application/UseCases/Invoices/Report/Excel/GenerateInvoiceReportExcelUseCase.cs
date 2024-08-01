@@ -16,7 +16,7 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
 
     public async Task<byte[]> Execute(DateOnly month)
     {
-        var invoices = await _repository.FilterByMonth(month);
+        var invoices = await _repository.FilterByWeek(month);
 
         if (invoices.Count == 0)
         {

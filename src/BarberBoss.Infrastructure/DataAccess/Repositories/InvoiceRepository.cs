@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BarberBoss.Infrastructure.DataAccess.Repositories;
 internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoiceRepository, IUpdateOnlyInvoiceRepository
 {
+    private const int NUMBER_OF_DAYS_BY_WEEK = 7;
     private readonly BarberBossDbContext _dbContext;
     public InvoiceRepository(BarberBossDbContext dbContext)
     {
@@ -58,12 +59,11 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
         _dbContext.Invoices.Update(invoice);
     }
 
-    public async Task<List<Invoice>> FilterByMonth(DateOnly date)
+    public async Task<List<Invoice>> FilterByWeek(DateOnly date)
     {
-        var startDate = new DateTime(year: date.Year, month: date.Month, day: 01, hour: 0, minute: 0, second: 0);
-
-        var daysInMonth = DateTime.DaysInMonth(year: date.Year, month: date.Month);
-        var endDate = new DateTime(year: date.Year, month: date.Month, day: daysInMonth, hour: 23, minute: 59, second: 59);
+        var beginningOfTheWeek = date.AddDays(DayOfWeek.Sunday - date.DayOfWeek);
+        var startDate = new DateTime(year: beginningOfTheWeek.Year, month: beginningOfTheWeek.Month, day: beginningOfTheWeek.Day, hour: 0, minute: 0, second: 0);
+        var endDate = startDate.AddDays(NUMBER_OF_DAYS_BY_WEEK - 1);
 
         return await _dbContext
             .Invoices

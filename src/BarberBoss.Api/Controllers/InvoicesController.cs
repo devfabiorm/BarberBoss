@@ -15,9 +15,9 @@ public class InvoicesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public IActionResult Register([FromServices] IRegisterInvoiceUseCase useCase, [FromBody] RequestInvoiceJson request)
+    public async Task<IActionResult> Register([FromServices] IRegisterInvoiceUseCase useCase, [FromBody] RequestInvoiceJson request)
     {
-        var response = useCase.Execute(request);
+        var response = await useCase.Execute(request);
 
         return CreatedAtAction(nameof(GetById), new { Id = response.Id }, response);
     }
@@ -25,9 +25,9 @@ public class InvoicesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(ResponseInvoicesJson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult GetAll([FromServices] IGetAllInvoicesUseCase useCase)
+    public async Task<IActionResult> GetAll([FromServices] IGetAllInvoicesUseCase useCase)
     {
-        var response = useCase.Execute();
+        var response = await useCase.Execute();
         return Ok(response);
     }
 
@@ -35,9 +35,9 @@ public class InvoicesController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseInvoiceJson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetById([FromServices] IGetInvoiceByIdUseCase useCase, [FromRoute] long id)
+    public async Task<IActionResult> GetById([FromServices] IGetInvoiceByIdUseCase useCase, [FromRoute] long id)
     {
-        var response = useCase.Execute(id);
+        var response = await useCase.Execute(id);
 
         return Ok(response);
     }

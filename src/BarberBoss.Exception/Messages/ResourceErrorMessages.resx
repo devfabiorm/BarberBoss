@@ -132,4 +132,7 @@
   <data name="REQUIRED_TITLE" xml:space="preserve">
     <value>Title is a required field</value>
   </data>
+  <data name="UNKNOWN_ERROR" xml:space="preserve">
+    <value>Unknown error</value>
+  </data>
 </root>

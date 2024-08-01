@@ -26,5 +26,7 @@ public class CultureMiddleware
 
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
+
+        await _next(context);
     } 
 }

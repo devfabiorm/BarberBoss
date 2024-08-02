@@ -33,6 +33,9 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         }
 
         var document = CreateDocument(date);
+        var style = document.AddStyle("DataCell", "Normal");
+        style.ParagraphFormat.Borders.Distance = 8;
+
         var page = CreatePage(document);
 
         CreateHeaderWithProfilePhotoAndName(page);
@@ -56,7 +59,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 
             row.Cells[0].AddParagraph(invoice.Date.ToString("D"));
             SetBaseStyleForInvoiceInformation(row.Cells[0]);
-            row.Cells[0].Format.LeftIndent = 20;
+            row.Cells[0].Format.LeftIndent = 9;
 
             row.Cells[1].AddParagraph(invoice.Date.ToString("t"));
             SetBaseStyleForInvoiceInformation(row.Cells[1]);
@@ -76,7 +79,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
                 descriptionRow.Cells[0].Shading.Color = ColorsHelper.AQUA_GREEN;
                 descriptionRow.Cells[0].VerticalAlignment = VerticalAlignment.Center;
                 descriptionRow.Cells[0].MergeRight = 2;
-                descriptionRow.Cells[0].Format.LeftIndent= 20;
+                descriptionRow.Cells[0].Format.LeftIndent= 9;
 
                 row.Cells[3].MergeDown = 1;
             }
@@ -139,7 +142,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         cell.Shading.Color = ColorsHelper.DARKENED_DARK_GREEN;
         cell.VerticalAlignment = VerticalAlignment.Center;
         cell.MergeRight = 2;
-        cell.Format.LeftIndent = 20;
+        cell.Format.LeftIndent = 9;
     }
 
     private void CreateTotalProfitSection(Section page, decimal totalInvoices)
@@ -147,18 +150,18 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         var paragraph = page.AddParagraph();
         paragraph.Format.SpaceBefore = paragraph.Format.SpaceAfter = 40;
 
-        paragraph.AddFormattedText(ResourceReportGenerationMessages.PROFIT_OF_THE_WEEK);
+        paragraph.AddFormattedText(ResourceReportGenerationMessages.PROFIT_OF_THE_WEEK, new Font { Name = FontHelper.ROBOTO_MEDIUM, Size = 15 });
 
         paragraph.AddLineBreak();
 
-        paragraph.AddFormattedText($"{CURRENT_CURRENCY} {totalInvoices}", new Font { Name = FontHelper.BEBAS_NEUE_REGULAR });
+        paragraph.AddFormattedText($"{CURRENT_CURRENCY} {totalInvoices}", new Font { Name = FontHelper.BEBAS_NEUE_REGULAR, Size = 50 });
     }
 
     private void CreateHeaderWithProfilePhotoAndName(Section page)
     {
         var table = page.AddTable();
         table.AddColumn();
-        table.AddColumn("300");
+        table.AddColumn("230");
 
         var row = table.AddRow();
 
@@ -177,10 +180,10 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
     {
         var table = page.AddTable();
 
-        table.AddColumn("195").Format.Alignment = ParagraphAlignment.Left;
-        table.AddColumn("80").Format.Alignment = ParagraphAlignment.Center;
-        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Center;
-        table.AddColumn("120").Format.Alignment = ParagraphAlignment.Right;
+        table.AddColumn("154").Format.Alignment = ParagraphAlignment.Left;
+        table.AddColumn("124").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("153").Format.Alignment = ParagraphAlignment.Center;
+        table.AddColumn("69").Format.Alignment = ParagraphAlignment.Right;
 
         return table;
     }

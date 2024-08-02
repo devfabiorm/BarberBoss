@@ -37,17 +37,17 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
 
         foreach (var invoice in invoices) 
         { 
-            worksheet.Cell("A1").Value = invoice.Title;
-            worksheet.Cell("A1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+            worksheet.Cell($"A{row}").Value = invoice.Title;
+            worksheet.Cell($"A{row}").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
 
-            worksheet.Cell("B1").Value = invoice.Date;
-            worksheet.Cell("C1").Value = invoice.PaymentType.PaymentTypeToString();
+            worksheet.Cell($"B{row}").Value = invoice.Date;
+            worksheet.Cell($"C{row}").Value = invoice.PaymentType.PaymentTypeToString();
 
-            worksheet.Cell("D1").Value = invoice.Amount;
-            worksheet.Cell("D1").Style.NumberFormat.Format = $"{CURRENT_CURRENCY} #,##0.00";
-            worksheet.Cell("D1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
+            worksheet.Cell($"D{row}").Value = invoice.Amount;
+            worksheet.Cell($"D{row}").Style.NumberFormat.Format = $"{CURRENT_CURRENCY} #,##0.00";
+            worksheet.Cell($"D{row}").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
 
-            worksheet.Cell("E1").Value = invoice.Description;
+            worksheet.Cell($"E{row}").Value = invoice.Description;
 
             row++;
         }
@@ -60,7 +60,7 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
         return file.ToArray();
     }
 
-    private static void InsertHeader(IXLWorksheet worksheet)
+    private void InsertHeader(IXLWorksheet worksheet)
     {
         worksheet.Cell("A1").Value = ResourceReportGenerationMessages.TITLE;
         worksheet.Cell("B1").Value = ResourceReportGenerationMessages.DATE;

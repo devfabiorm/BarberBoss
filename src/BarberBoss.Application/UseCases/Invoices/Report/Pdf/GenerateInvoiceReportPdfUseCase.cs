@@ -117,7 +117,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         cell.AddParagraph($"{CURRENT_CURRENCY} {amount}");
         cell.Format.Font = new Font { Name = FontHelper.ROBOTO_REGULAR, Size = 10, Color = ColorsHelper.BLACK };
         cell.Shading.Color = ColorsHelper.WHITE;
-        cell.VerticalAlignment = VerticalAlignment.Top;
+        cell.VerticalAlignment = VerticalAlignment.Center;
     }
 
     private void SetBaseStyleForInvoiceInformation(Cell cell)

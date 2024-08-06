@@ -28,6 +28,12 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> GetAll([FromServices] IGetAllInvoicesUseCase useCase)
     {
         var response = await useCase.Execute();
+
+        if (response.Invoices.Count == 0)
+        {
+            return NoContent();
+        }
+
         return Ok(response);
     }
 
@@ -38,7 +44,6 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> GetById([FromServices] IGetInvoiceByIdUseCase useCase, [FromRoute] long id)
     {
         var response = await useCase.Execute(id);
-
         return Ok(response);
     }
 

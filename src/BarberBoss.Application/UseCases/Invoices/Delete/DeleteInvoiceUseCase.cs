@@ -1,5 +1,7 @@
 ﻿using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Invoices;
+using BarberBoss.Exception;
+using BarberBoss.Exception.Messages;
 
 namespace BarberBoss.Application.UseCases.Invoices.Delete;
 internal class DeleteInvoiceUseCase : IDeleteInvoiceUseCase
@@ -19,7 +21,7 @@ internal class DeleteInvoiceUseCase : IDeleteInvoiceUseCase
 
         if (result == false)
         {
-            //throw exception
+            throw new NotFoundException(ResourceErrorMessages.INVOICE_NOT_FOUND);
         }
 
         await _unitOfWork.Commit();

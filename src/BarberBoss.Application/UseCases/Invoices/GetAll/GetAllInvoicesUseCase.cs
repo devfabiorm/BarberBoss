@@ -19,8 +19,8 @@ internal class GetAllInvoicesUseCase : IGetAllInvoicesUseCase
         var invoices = await _repository.GetAll();
 
         if (invoices.Count == 0) 
-        { 
-            //throw exception
+        {
+            return new ResponseInvoicesJson { Invoices = [] };
         }
 
         var shortInvoices = _mapper.Map<List<ResponseInvoiceShortJson>>(invoices);

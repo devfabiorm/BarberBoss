@@ -48,7 +48,7 @@ Para obter um cópia local funcionando, siga estes passos simples:
 [dot-net-sdk]: https://dotnet.microsoft.com/pt-br/download/dotnet/8.0
 
 <!-- Images -->
-[pdf-report]: images/pdfreport.png
+[pdf-report]: images/pdf-report.png
 
 <!-- Badges -->
 [badge-dot-not]: https://img.shields.io/badge/.NET-512BD4?logo=dotnet&logoColor=fff&style=for-the-badge

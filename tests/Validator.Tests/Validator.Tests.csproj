@@ -18,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CommonTestUtilities\CommonTestUtilities.csproj" />
     <ProjectReference Include="..\..\src\BarberBoss.Application\BarberBoss.Application.csproj" />
     <ProjectReference Include="..\..\src\BarberBoss.Communication\BarberBoss.Communication.csproj" />
     <ProjectReference Include="..\..\src\BarberBoss.Exception\BarberBoss.Exception.csproj" />
+    <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

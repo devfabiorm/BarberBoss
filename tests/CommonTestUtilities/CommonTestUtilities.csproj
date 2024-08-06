@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\BarberBoss.Communication\BarberBoss.Communication.csproj" />
+    <ProjectReference Include="..\..\src\BarberBoss.Communication\BarberBoss.Communication.csproj" />
   </ItemGroup>
 
 </Project>

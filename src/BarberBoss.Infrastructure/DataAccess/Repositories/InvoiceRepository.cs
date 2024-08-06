@@ -63,7 +63,8 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
     {
         var beginningOfTheWeek = date.AddDays(DayOfWeek.Sunday - date.DayOfWeek);
         var startDate = new DateTime(year: beginningOfTheWeek.Year, month: beginningOfTheWeek.Month, day: beginningOfTheWeek.Day, hour: 0, minute: 0, second: 0);
-        var endDate = startDate.AddDays(NUMBER_OF_DAYS_BY_WEEK - 1);
+        var dateToBeTheEnd = startDate.AddDays(NUMBER_OF_DAYS_BY_WEEK - 1);
+        var endDate = new DateTime(year: dateToBeTheEnd.Year, month: dateToBeTheEnd.Month, day: dateToBeTheEnd.Day, hour: 23, minute: 59, second: 59);
 
         return await _dbContext
             .Invoices

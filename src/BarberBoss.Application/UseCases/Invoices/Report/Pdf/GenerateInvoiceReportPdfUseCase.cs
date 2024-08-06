@@ -14,6 +14,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
 {
     private const string CURRENT_CURRENCY = "R$";
     private const int HEIGHT_ROW_EXPENSE_TABLE = 25;
+    private const int HEADER_HEIGHT = 62;
     private readonly IReadOnlyInvoiceRepository _repository;
 
     public GenerateInvoiceReportPdfUseCase(IReadOnlyInvoiceRepository repository)
@@ -164,6 +165,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         table.AddColumn("230");
 
         var row = table.AddRow();
+        row.Height = HEADER_HEIGHT;
 
         var assembly = Assembly.GetExecutingAssembly();
         var directoryName = Path.GetDirectoryName(assembly.Location);
@@ -172,8 +174,9 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         row.Cells[0].AddImage(filePath);
 
         row.Cells[1].AddParagraph("BARBEARIA DO JOÃO");
-        row.Cells[1].Format.Font = new Font { Name = FontHelper.ROBOTO_MEDIUM, Size = 25 };
+        row.Cells[1].Format.Font = new Font { Name = FontHelper.BEBAS_NEUE_REGULAR, Size = 25 };
         row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
+        row.Cells[1].Format.LeftIndent = 18;
     }
 
     private Table CreateInvoiceTable(Section page)

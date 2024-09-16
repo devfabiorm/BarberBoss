@@ -9,4 +9,6 @@ public class Invoice
     public DateTime Date { get; set; }
     public decimal Amount { get; set; }
     public EPaymentType PaymentType { get; set; }
+    public long UserId { get; set; }
+    public User User { get; set; } = default!;
 }

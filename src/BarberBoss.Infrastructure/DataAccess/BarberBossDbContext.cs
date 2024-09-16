@@ -9,4 +9,5 @@ internal class BarberBossDbContext : DbContext
     }
 
     public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<User> Users { get; set; }
 }

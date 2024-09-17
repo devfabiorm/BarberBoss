@@ -11,4 +11,6 @@ public class Invoice
     public EPaymentType PaymentType { get; set; }
     public long UserId { get; set; }
     public User User { get; set; } = default!;
+    public long BarberShopId { get; set; }
+    public BarberShop BarberShop { get; set; } = default!;
 }

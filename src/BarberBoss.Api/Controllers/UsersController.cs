@@ -1,4 +1,5 @@
-﻿using BarberBoss.Communication.Requests;
+﻿using BarberBoss.Application.UseCases.Users.Register;
+using BarberBoss.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarberBoss.Api.Controllers;
@@ -9,10 +10,10 @@ public class UsersController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task Register(
+    public async Task<IActionResult> Register(
         [FromServices] IRegisterUserUseCase useCase,
         [FromBody] RequestRegisterUserJson request)
     {
-
+        return Ok();
     }
 }

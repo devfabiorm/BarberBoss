@@ -135,4 +135,13 @@
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error</value>
   </data>
+  <data name="INVALID_SHOP_NAME" xml:space="preserve">
+    <value>The name provided is invalid</value>
+  </data>
+  <data name="INVALID_SHOP_ADDRESS" xml:space="preserve">
+    <value>A valid address must be provided</value>
+  </data>
+  <data name="INVALID_SHOP_ID" xml:space="preserve">
+    <value>Invalid shop number</value>
+  </data>
 </root>

@@ -70,6 +70,33 @@ namespace BarberBoss.Exception.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A valid address must be provided.
+        /// </summary>
+        public static string INVALID_SHOP_ADDRESS {
+            get {
+                return ResourceManager.GetString("INVALID_SHOP_ADDRESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid shop number.
+        /// </summary>
+        public static string INVALID_SHOP_ID {
+            get {
+                return ResourceManager.GetString("INVALID_SHOP_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name provided is invalid.
+        /// </summary>
+        public static string INVALID_SHOP_NAME {
+            get {
+                return ResourceManager.GetString("INVALID_SHOP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The invoice value amount needs to be greater than zero.
         /// </summary>
         public static string INVOICE_AMOUNT_GREATER_THAN_ZERO {

@@ -8,4 +8,5 @@ public class RequestInvoiceJson
     public decimal Amount { get; set; }
     public EPaymentType PaymentType { get; set; }
     public DateTime Date { get; set; }
+    public long BarberShopId { get; set; }
 }

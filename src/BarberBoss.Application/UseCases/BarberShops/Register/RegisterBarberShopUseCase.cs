@@ -32,7 +32,7 @@ public class RegisterBarberShopUseCase : IRegisterBarberShopUseCase
 
     private void Validate(RequestRegisterBarberShopJson request)
     {
-        var validator = new RegisterBaberShopValidator();
+        var validator = new RegisterBarberShopValidator();
 
         var result = validator.Validate(request);
 

@@ -16,11 +16,13 @@ public class AutoMapping : Profile
     private void RequestToEntity()
     {
         CreateMap<RequestInvoiceJson, Invoice>();
+        CreateMap<RequestRegisterBarberShopJson, BarberShop>();
     }
 
     private void EntityToResponse()
     {
         CreateMap<Invoice, ResponseInvoiceJson>();
         CreateMap<Invoice, ResponseInvoiceShortJson>();
+        CreateMap<BarberShop, ResponseBarberShopJson>();
     }
 }

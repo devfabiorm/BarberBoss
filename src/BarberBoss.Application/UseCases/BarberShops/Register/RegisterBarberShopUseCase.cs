@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BarberBoss.Communication.Requests;
+using BarberBoss.Communication.Responses;
 using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.BarberShops;
@@ -19,7 +20,7 @@ public class RegisterBarberShopUseCase : IRegisterBarberShopUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Execute(RequestRegisterBarberShopJson request)
+    public async Task<ResponseBarberShopJson> Execute(RequestRegisterBarberShopJson request)
     {
         Validate(request);
 
@@ -28,6 +29,8 @@ public class RegisterBarberShopUseCase : IRegisterBarberShopUseCase
         await _repository.Create(shop);
 
         await _unitOfWork.Commit();
+
+        return _mapper.Map<ResponseBarberShopJson>(shop);
     }
 
     private void Validate(RequestRegisterBarberShopJson request)

@@ -13,6 +13,8 @@ public class BarberShopsController : ControllerBase
         [FromServices] IRegisterBarberShopUseCase useCase,
         RequestRegisterBarberShopJson request)
     {
-        return Ok();
+        var barberShop = await useCase.Execute(request);
+
+        return Ok(barberShop);
     }
 }

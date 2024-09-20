@@ -10,6 +10,7 @@
     <None Remove="UseCases\Invoices\Report\Pdf\Fonts\BebasNeue-Regular.ttf" />
     <None Remove="UseCases\Invoices\Report\Pdf\Fonts\Roboto-Medium.ttf" />
     <None Remove="UseCases\Invoices\Report\Pdf\Fonts\Roboto-Regular.ttf" />
+    <None Remove="UseCases\Users\PasswordValidator.cs~RF230efab.TMP" />
   </ItemGroup>
 
   <ItemGroup>

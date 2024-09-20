@@ -32,6 +32,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterBarberShopUseCase, RegisterBarberShopUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<IGetAllBarberShopsUseCase, GetAllBarberShopsUseCase>();
+        services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
     }
 
     private static void AddMapper(this IServiceCollection services) 

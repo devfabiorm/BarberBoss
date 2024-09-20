@@ -24,5 +24,6 @@ public class AutoMapping : Profile
         CreateMap<Invoice, ResponseInvoiceJson>();
         CreateMap<Invoice, ResponseInvoiceShortJson>();
         CreateMap<BarberShop, ResponseBarberShopJson>();
+        CreateMap<BarberShop, ResponseBarberShopShortJson>();
     }
 }

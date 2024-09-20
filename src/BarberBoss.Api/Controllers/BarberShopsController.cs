@@ -1,4 +1,5 @@
-﻿using BarberBoss.Application.UseCases.BarberShops.Register;
+﻿using BarberBoss.Application.UseCases.BarberShops.GetAll;
+using BarberBoss.Application.UseCases.BarberShops.Register;
 using BarberBoss.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,19 @@ public class BarberShopsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterBarberShopUseCase useCase,
-        RequestRegisterBarberShopJson request)
+        [FromBody] RequestRegisterBarberShopJson request)
     {
         var barberShop = await useCase.Execute(request);
 
         return Ok(barberShop);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(
+        [FromServices] IGetAllBarberShopsUseCase useCase)
+    {
+        var barberShops = await useCase.Execute();
+
+        return Ok(barberShops);
     }
 }

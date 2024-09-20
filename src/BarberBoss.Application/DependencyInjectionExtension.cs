@@ -1,4 +1,5 @@
 ﻿using BarberBoss.Application.AutoMapper;
+using BarberBoss.Application.UseCases.BarberShops.GetAll;
 using BarberBoss.Application.UseCases.BarberShops.Register;
 using BarberBoss.Application.UseCases.Invoices.Delete;
 using BarberBoss.Application.UseCases.Invoices.GetAll;
@@ -30,6 +31,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGenerateInvoiceReportPdfUseCase, GenerateInvoiceReportPdfUseCase>();
         services.AddScoped<IRegisterBarberShopUseCase, RegisterBarberShopUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+        services.AddScoped<IGetAllBarberShopsUseCase, GetAllBarberShopsUseCase>();
     }
 
     private static void AddMapper(this IServiceCollection services) 

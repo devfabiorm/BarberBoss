@@ -21,4 +21,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Security\Tokens\" />
+  </ItemGroup>
+
 </Project>

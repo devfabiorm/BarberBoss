@@ -2,8 +2,10 @@
 using BarberBoss.Domain.Repositories.BarberShops;
 using BarberBoss.Domain.Repositories.Invoices;
 using BarberBoss.Domain.Repositories.Users;
+using BarberBoss.Domain.Security.Cryptography;
 using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.DataAccess.Repositories;
+using BarberBoss.Infrastructure.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,8 @@ public static class DependencyInjectionExtension
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddRepositories(services);
+
+        services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
 
         AddDbContext(services, configuration);
     }

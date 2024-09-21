@@ -11,12 +11,12 @@ public partial class PasswordValidator<T> : PropertyValidator<T, string>
 
     protected override string GetDefaultMessageTemplate(string errorCode)
     {
-        return $"{{ {ErrorMessageKey} }}";
+        return $"{{{ErrorMessageKey}}}";
     }
 
     public override bool IsValid(ValidationContext<T> context, string password)
     {
-        if (!string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(password))
         {
             context.MessageFormatter.AppendArgument(ErrorMessageKey, ResourceErrorMessages.INVALID_CREDENTIALS);
             return false;
@@ -46,7 +46,7 @@ public partial class PasswordValidator<T> : PropertyValidator<T, string>
             return false;
         }
 
-        if (Characters().IsMatch(password))
+        if (!Characters().IsMatch(password))
         {
             context.MessageFormatter.AppendArgument(ErrorMessageKey, ResourceErrorMessages.INVALID_CREDENTIALS);
             return false;
@@ -64,6 +64,6 @@ public partial class PasswordValidator<T> : PropertyValidator<T, string>
     [GeneratedRegex(@"[0-9]")]
     private static partial Regex Numbers();
 
-    [GeneratedRegex(@"[\!\?\*\.]")]
+    [GeneratedRegex(@"[\!\?\*\.]+")]
     private static partial Regex Characters();
 }

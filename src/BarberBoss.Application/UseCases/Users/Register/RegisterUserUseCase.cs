@@ -5,6 +5,7 @@ using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Users;
 using BarberBoss.Domain.Security.Cryptography;
+using BarberBoss.Domain.Security.Tokens;
 using BarberBoss.Exception;
 
 namespace BarberBoss.Application.UseCases.Users.Register;
@@ -14,17 +15,20 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IPasswordEncrypter _passwordEncrypter;
+    private readonly IAccessTokenGenerator _tokenGenerator;
 
     public RegisterUserUseCase(
         IWriteOnlyUserRepository repository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
-        IPasswordEncrypter passwordEncrypter)
+        IPasswordEncrypter passwordEncrypter,
+        IAccessTokenGenerator tokenGenerator)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _passwordEncrypter = passwordEncrypter;
+        _tokenGenerator = tokenGenerator;
     }
 
     public async Task<ResponseUserJson> Execute(RequestRegisterUserJson request)
@@ -39,7 +43,10 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         await _unitOfWork.Commit();
 
-        return _mapper.Map<ResponseUserJson>(user);
+        var response =  _mapper.Map<ResponseUserJson>(user);
+        response.Token = _tokenGenerator.Generate(user);
+
+        return response;
     }
 
     private void Validate(RequestRegisterUserJson request)

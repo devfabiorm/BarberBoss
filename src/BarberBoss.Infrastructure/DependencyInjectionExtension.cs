@@ -15,11 +15,15 @@ public static class DependencyInjectionExtension
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        AddRepositories(services);
-
         services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
-
+        AddToken(services, configuration);
         AddDbContext(services, configuration);
+        AddRepositories(services);
+    }
+
+    private static void AddToken(IServiceCollection services, IConfiguration configuration)
+    {
+
     }
 
     private static void AddRepositories(IServiceCollection services)

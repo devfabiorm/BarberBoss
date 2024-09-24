@@ -39,6 +39,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IWriteOnlyBarberShopRepository, BarberShopRepository>();
         services.AddScoped<IReadOnlyBarberShopRepository, BarberShopRepository>();
         services.AddScoped<IWriteOnlyUserRepository, UserRepository>();
+        services.AddScoped<IReadOnlyUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 

@@ -10,4 +10,11 @@ internal class PasswordEncrypter : IPasswordEncrypter
 
         return hashedPassword;
     }
+
+    public bool Verify(string hashedPassword, string rawTextPassword)
+    {
+        var result = BC.Verify(rawTextPassword, hashedPassword);
+
+        return result;
+    }
 }

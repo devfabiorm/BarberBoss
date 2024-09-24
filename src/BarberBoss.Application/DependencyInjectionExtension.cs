@@ -8,6 +8,7 @@ using BarberBoss.Application.UseCases.Invoices.Register;
 using BarberBoss.Application.UseCases.Invoices.Report.Excel;
 using BarberBoss.Application.UseCases.Invoices.Report.Pdf;
 using BarberBoss.Application.UseCases.Invoices.Update;
+using BarberBoss.Application.UseCases.Login.DoLogin;
 using BarberBoss.Application.UseCases.Users.Register;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<IGetAllBarberShopsUseCase, GetAllBarberShopsUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+        services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
     }
 
     private static void AddMapper(this IServiceCollection services) 

@@ -61,6 +61,15 @@ namespace BarberBoss.Exception.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email cannot be used because already there&apos;s an user using it.
+        /// </summary>
+        public static string EMAIL_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("EMAIL_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An email need be provided.
         /// </summary>
         public static string EMAIL_EMPTY {

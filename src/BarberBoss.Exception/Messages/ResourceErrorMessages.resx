@@ -156,4 +156,7 @@
   <data name="INVALID_CREDENTIALS" xml:space="preserve">
     <value>Invalid credentials</value>
   </data>
+  <data name="EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <value>Email cannot be used because already there's an user using it</value>
+  </data>
 </root>

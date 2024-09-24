@@ -1,5 +1,5 @@
 ﻿namespace BarberBoss.Communication.Responses;
-public class ResponseUserJson
+public class ResponseRegisteredUserJson
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;

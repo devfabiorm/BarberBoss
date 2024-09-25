@@ -18,6 +18,7 @@ public class AutoMapping : Profile
         CreateMap<RequestInvoiceJson, Invoice>();
         CreateMap<RequestRegisterBarberShopJson, BarberShop>();
         CreateMap<RequestRegisterUserJson, User>();
+        CreateMap<RequestUpdateUserJson, User>();
     }
 
     private void EntityToResponse()

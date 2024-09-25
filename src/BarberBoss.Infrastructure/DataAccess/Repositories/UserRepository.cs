@@ -3,7 +3,7 @@ using BarberBoss.Domain.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberBoss.Infrastructure.DataAccess.Repositories;
-internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepository
+internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepository, IUpdateOnlyUserRepository
 {
     private readonly BarberBossDbContext _dbContext;
 
@@ -17,14 +17,24 @@ internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepositor
         await _dbContext.Users.AddAsync(user);
     }
 
+    public async Task<User> GetById(long id)
+    {
+        return await _dbContext.Users.FirstAsync(user => user.Id == id);
+    }
+
     public async Task<User?> GetUserByEmail(string email)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(user => user.Email == email);
+        return await _dbContext.Users.AsNoTracking().SingleOrDefaultAsync(user => user.Email == email);
     }
 
     public async Task<bool> HasActiveEmail(string email)
     {
         return await _dbContext.Users.AnyAsync(user => user.Email == email);
+    }
+
+    public void Update(User user)
+    {
+        _dbContext.Users.Update(user);
     }
 }
 

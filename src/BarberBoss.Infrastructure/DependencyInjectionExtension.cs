@@ -3,11 +3,13 @@ using BarberBoss.Domain.Repositories.BarberShops;
 using BarberBoss.Domain.Repositories.Invoices;
 using BarberBoss.Domain.Repositories.Users;
 using BarberBoss.Domain.Security.Cryptography;
-using BarberBoss.Domain.Security.Tokens;
+using BarberBoss.Domain.Security.Token;
+using BarberBoss.Domain.Services.LoggedUser;
 using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.DataAccess.Repositories;
 using BarberBoss.Infrastructure.Security.Cryptography;
 using BarberBoss.Infrastructure.Security.Tokens;
+using BarberBoss.Infrastructure.Services.LoggedUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ public static class DependencyInjectionExtension
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
+        services.AddScoped<ILoggedUser, LoggedUser>();
         AddToken(services, configuration);
         AddDbContext(services, configuration);
         AddRepositories(services);
@@ -40,6 +43,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IReadOnlyBarberShopRepository, BarberShopRepository>();
         services.AddScoped<IWriteOnlyUserRepository, UserRepository>();
         services.AddScoped<IReadOnlyUserRepository, UserRepository>();
+        services.AddScoped<IUpdateOnlyUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 

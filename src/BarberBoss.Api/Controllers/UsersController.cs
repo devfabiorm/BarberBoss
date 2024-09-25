@@ -1,6 +1,8 @@
 ﻿using BarberBoss.Application.UseCases.Users.Register;
+using BarberBoss.Application.UseCases.Users.Update;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarberBoss.Api.Controllers;
@@ -18,5 +20,18 @@ public class UsersController : ControllerBase
         var result = await useCase.Execute(request);
 
         return Ok(result);
+    }
+
+    [HttpPut]
+    [Authorize]
+    [ProducesResponseType(typeof(RequestUpdateUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateAdapter(
+        [FromServices] IUpdateUserUseCase useCase,
+        [FromBody] RequestUpdateUserJson request)
+    {
+        await useCase.Execute(request);
+
+        return Ok();
     }
 }

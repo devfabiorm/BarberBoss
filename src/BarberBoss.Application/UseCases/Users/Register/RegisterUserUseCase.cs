@@ -5,7 +5,7 @@ using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Users;
 using BarberBoss.Domain.Security.Cryptography;
-using BarberBoss.Domain.Security.Tokens;
+using BarberBoss.Domain.Security.Token;
 using BarberBoss.Exception;
 using BarberBoss.Exception.Messages;
 using FluentValidation.Results;

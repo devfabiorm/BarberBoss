@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Security\Token\ITokenProvider.cs~RF11d15a0.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Reports\ResourceReportGenerationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -1,5 +1,5 @@
 ﻿using BarberBoss.Domain.Entities;
-using BarberBoss.Domain.Security.Tokens;
+using BarberBoss.Domain.Security.Token;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

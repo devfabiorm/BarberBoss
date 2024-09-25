@@ -2,7 +2,7 @@
 using BarberBoss.Communication.Responses;
 using BarberBoss.Domain.Repositories.Users;
 using BarberBoss.Domain.Security.Cryptography;
-using BarberBoss.Domain.Security.Tokens;
+using BarberBoss.Domain.Security.Token;
 using BarberBoss.Exception;
 
 namespace BarberBoss.Application.UseCases.Login.DoLogin;

@@ -1,4 +1,7 @@
-﻿using BarberBoss.Application.UseCases.Users.Register;
+﻿using BarberBoss.Application.UseCases.Invoices.Delete;
+using BarberBoss.Application.UseCases.Users.Delete;
+using BarberBoss.Application.UseCases.Users.Profile;
+using BarberBoss.Application.UseCases.Users.Register;
 using BarberBoss.Application.UseCases.Users.Update;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
@@ -11,7 +14,7 @@ namespace BarberBoss.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterUserUseCase useCase,
@@ -24,7 +27,7 @@ public class UsersController : ControllerBase
 
     [HttpPut]
     [Authorize]
-    [ProducesResponseType(typeof(RequestUpdateUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAdapter(
         [FromServices] IUpdateUserUseCase useCase,
@@ -32,6 +35,25 @@ public class UsersController : ControllerBase
     {
         await useCase.Execute(request);
 
-        return Ok();
+        return NoContent();
+    }
+
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType(typeof(ResponseUserJson), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetProfile([FromServices] IGetUserProfileUseCase useCase)
+    {
+        var profile = await useCase.Execute();
+
+        return Ok(profile);
+    }
+
+    [HttpDelete]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> Delete([FromServices] IDeleteUserAccountUseCase useCase)
+    {
+        await useCase.Execute();
+        return NoContent();
     }
 }

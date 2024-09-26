@@ -1,11 +1,14 @@
 ﻿using BarberBoss.Application.UseCases.Invoices.Report.Excel;
 using BarberBoss.Application.UseCases.Invoices.Report.Pdf;
+using BarberBoss.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace BarberBoss.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = Roles.Admin)]
 public class ReportsController : ControllerBase
 {
     [HttpGet("excel")]

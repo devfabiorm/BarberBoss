@@ -17,6 +17,11 @@ internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepositor
         await _dbContext.Users.AddAsync(user);
     }
 
+    public void Delete(User user)
+    {
+        _dbContext.Users.Remove(user);
+    }
+
     public async Task<User> GetById(long id)
     {
         return await _dbContext.Users.FirstAsync(user => user.Id == id);
@@ -24,7 +29,10 @@ internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepositor
 
     public async Task<User?> GetUserByEmail(string email)
     {
-        return await _dbContext.Users.AsNoTracking().SingleOrDefaultAsync(user => user.Email == email);
+        return await _dbContext
+            .Users
+            .AsNoTracking()
+            .SingleOrDefaultAsync(user => user.Email == email);
     }
 
     public async Task<bool> HasActiveEmail(string email)

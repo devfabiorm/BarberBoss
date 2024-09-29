@@ -4,9 +4,9 @@ using BarberBoss.Exception.Messages;
 using CommonTestUtilities.Requests;
 using FluentAssertions;
 
-namespace Validator.Tests;
+namespace Validator.Tests.UseCases.Invoices.Register;
 
-public class InvoiceValidatorTests
+public class InvoiceRegisterValidatorTests
 {
     [Fact]
     public void Success()

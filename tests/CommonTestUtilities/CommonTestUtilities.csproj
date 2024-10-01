@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Bogus" Version="35.6.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BarberBoss.Application\BarberBoss.Application.csproj" />
     <ProjectReference Include="..\..\src\BarberBoss.Communication\BarberBoss.Communication.csproj" />
+    <ProjectReference Include="..\..\src\BarberBoss.Domain\BarberBoss.Domain.csproj" />
   </ItemGroup>
 
 </Project>

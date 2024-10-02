@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Users\Update\" />
-    <Folder Include="Users\Profile\" />
   </ItemGroup>
 
 </Project>

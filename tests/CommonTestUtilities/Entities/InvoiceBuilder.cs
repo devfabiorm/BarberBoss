@@ -5,6 +5,26 @@ using Bogus;
 namespace CommonTestUtilities.Entities;
 public class InvoiceBuilder
 {
+    public static List<Invoice> Collection(User user, BarberShop barberShop, uint count = 2)
+    {
+        var invoices = new List<Invoice>();
+
+        if (count == 0)
+            count = 1;
+
+        var invoiceId = 1;
+
+        for (var i = 0;  i < count; i++)
+        {
+            var invoice = Build(user, barberShop);
+            invoice.Id = invoiceId++;
+
+            invoices.Add(invoice);
+        }
+
+        return invoices;
+    }
+
     public static Invoice Build(User user, BarberShop barberShop)
     {
         return new Faker<Invoice>()

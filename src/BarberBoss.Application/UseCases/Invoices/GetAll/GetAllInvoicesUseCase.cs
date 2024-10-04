@@ -3,7 +3,7 @@ using BarberBoss.Communication.Responses;
 using BarberBoss.Domain.Repositories.Invoices;
 
 namespace BarberBoss.Application.UseCases.Invoices.GetAll;
-internal class GetAllInvoicesUseCase : IGetAllInvoicesUseCase
+public class GetAllInvoicesUseCase : IGetAllInvoicesUseCase
 {
     private readonly IReadOnlyInvoiceRepository _repository;
     private readonly IMapper _mapper;

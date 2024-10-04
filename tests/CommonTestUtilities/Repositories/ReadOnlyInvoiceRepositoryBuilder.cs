@@ -1,13 +1,23 @@
-﻿using BarberBoss.Domain.Repositories.Invoices;
+﻿using BarberBoss.Domain.Entities;
+using BarberBoss.Domain.Repositories.Invoices;
 using Moq;
 
 namespace CommonTestUtilities.Repositories;
 public class ReadOnlyInvoiceRepositoryBuilder
 {
-    public static IReadOnlyInvoiceRepository Build()
-    {
-        var mock = new Mock<IReadOnlyInvoiceRepository>();
+    private readonly Mock<IReadOnlyInvoiceRepository> _repository;
 
-        return mock.Object;
+    public ReadOnlyInvoiceRepositoryBuilder()
+    {
+          _repository = new Mock<IReadOnlyInvoiceRepository>();
     }
+
+    public ReadOnlyInvoiceRepositoryBuilder GetAll(List<Invoice> invoices)
+    {
+        _repository.Setup(repo => repo.GetAll()).ReturnsAsync(invoices);
+
+        return this;
+    }
+
+    public IReadOnlyInvoiceRepository Build() =>_repository.Object;
 }

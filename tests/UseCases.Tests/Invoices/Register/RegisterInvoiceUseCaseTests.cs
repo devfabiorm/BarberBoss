@@ -100,6 +100,22 @@ public class RegisterInvoiceUseCaseTests
         result.Where(ex => ex.GetErrorMessages().Count == 1 && ex.GetErrorMessages().Contains(ResourceErrorMessages.INVALID_PAYMENT_TYPE));
     }
 
+    [Fact]
+    public async Task Inexistent_Shop()
+    {
+        //Arrange
+        var request = RequestInvoiceJsonBuilder.Build();
+
+        var useCase = CreateUseCase();
+
+        //Act
+        var act = async () => await useCase.Execute(request);
+
+        //Assert
+        var result = await act.Should().ThrowAsync<ErrorOnValidationException>();
+        result.Where(ex => ex.GetErrorMessages().Count == 1 && ex.GetErrorMessages().Contains(ResourceErrorMessages.INVALID_SHOP_ID));
+    }
+
     private RegisterInvoiceUseCase CreateUseCase(long? shopId = null)
     {
         var repository = WriteOnlyInvoiceRepositoryBuilder.Build();

@@ -19,5 +19,15 @@ public class ReadOnlyInvoiceRepositoryBuilder
         return this;
     }
 
+    public ReadOnlyInvoiceRepositoryBuilder GetById(Invoice invoice)
+    {
+        if (invoice is not null)
+        {
+            _repository.Setup(repo => repo.GetById(invoice.Id)).ReturnsAsync(invoice);
+        }
+
+        return this;
+    }
+
     public IReadOnlyInvoiceRepository Build() =>_repository.Object;
 }

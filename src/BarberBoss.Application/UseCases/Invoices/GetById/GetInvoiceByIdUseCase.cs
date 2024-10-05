@@ -5,7 +5,7 @@ using BarberBoss.Exception.Messages;
 using BarberBoss.Exception;
 
 namespace BarberBoss.Application.UseCases.Invoices.GetById;
-internal class GetInvoiceByIdUseCase : IGetInvoiceByIdUseCase
+public class GetInvoiceByIdUseCase : IGetInvoiceByIdUseCase
 {
     private readonly IReadOnlyInvoiceRepository _repository;
     private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ internal class GetInvoiceByIdUseCase : IGetInvoiceByIdUseCase
         _mapper = mapper;
     }
 
-    public async Task<ResponseInvoiceJson?> Execute(long id)
+    public async Task<ResponseInvoiceJson> Execute(long id)
     {
         var invoice = await _repository.GetById(id);
 

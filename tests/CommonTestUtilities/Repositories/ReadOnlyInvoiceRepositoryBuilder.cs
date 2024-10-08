@@ -29,5 +29,12 @@ public class ReadOnlyInvoiceRepositoryBuilder
         return this;
     }
 
+    public ReadOnlyInvoiceRepositoryBuilder FilterByWeek(List<Invoice> invoices)
+    {
+        _repository.Setup(repo => repo.FilterByWeek(It.IsAny<DateOnly>())).ReturnsAsync(invoices);
+        
+        return this;
+    }
+
     public IReadOnlyInvoiceRepository Build() =>_repository.Object;
 }

@@ -13,7 +13,7 @@ public class InvoiceRegisterValidatorTests
     {
         //Arrange
         var validator = new InvoiceValidator();
-        var request = RequestRegisterInvoiceJsonBuilder.Build();
+        var request = RequestInvoiceJsonBuilder.Build();
 
         //Act
         var actual = validator.Validate(request);
@@ -30,7 +30,7 @@ public class InvoiceRegisterValidatorTests
     {
         //Arrange
         var validator = new InvoiceValidator();
-        var request = RequestRegisterInvoiceJsonBuilder.Build();
+        var request = RequestInvoiceJsonBuilder.Build();
         request.Title = title;
 
         //Act
@@ -46,7 +46,7 @@ public class InvoiceRegisterValidatorTests
     {
         //Arrange
         var validator = new InvoiceValidator();
-        var request = RequestRegisterInvoiceJsonBuilder.Build();
+        var request = RequestInvoiceJsonBuilder.Build();
         request.Date = DateTime.UtcNow.AddDays(1);
 
         //Act
@@ -62,7 +62,7 @@ public class InvoiceRegisterValidatorTests
     {
         //Arrange
         var validator = new InvoiceValidator();
-        var request = RequestRegisterInvoiceJsonBuilder.Build();
+        var request = RequestInvoiceJsonBuilder.Build();
         request.PaymentType = (EPaymentType)700;
 
         //Act
@@ -82,7 +82,7 @@ public class InvoiceRegisterValidatorTests
     {
         //Arrange
         var validator = new InvoiceValidator();
-        var request = RequestRegisterInvoiceJsonBuilder.Build();
+        var request = RequestInvoiceJsonBuilder.Build();
         request.Amount = amount;
 
         //Act

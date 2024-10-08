@@ -5,12 +5,27 @@ using Moq;
 namespace CommonTestUtilities.Repositories;
 public class WriteOnlyInvoiceRepositoryBuilder
 {
-    public static IWriteOnlyInvoiceRepository Build()
+    private readonly Mock<IWriteOnlyInvoiceRepository> _mock;
+
+    public WriteOnlyInvoiceRepositoryBuilder()
     {
-        var mock = new Mock<IWriteOnlyInvoiceRepository>();
+        _mock = new Mock<IWriteOnlyInvoiceRepository>();
+    }
 
-        mock.Setup(repo => repo.Create(It.IsAny<Invoice>())).Verifiable();
+    public WriteOnlyInvoiceRepositoryBuilder Delete(Invoice invoice)
+    {
+        if (invoice is not null)
+        {
+            _mock.Setup(repo => repo.Delete(invoice.Id)).ReturnsAsync(true);
+        }
 
-        return mock.Object;
+        return this;
+    }
+
+    public IWriteOnlyInvoiceRepository Build()
+    {
+       _mock.Setup(repo => repo.Create(It.IsAny<Invoice>())).Verifiable();
+
+        return _mock.Object;
     }
 }

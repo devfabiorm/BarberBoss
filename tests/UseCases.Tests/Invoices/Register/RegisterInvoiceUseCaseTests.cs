@@ -118,7 +118,7 @@ public class RegisterInvoiceUseCaseTests
 
     private RegisterInvoiceUseCase CreateUseCase(long? shopId = null)
     {
-        var repository = WriteOnlyInvoiceRepositoryBuilder.Build();
+        var repository = new WriteOnlyInvoiceRepositoryBuilder().Build();
         var mapper = MapperBuilder.Build();
         var barberShopReadOnlyRepo = new ReadOnlyBarberShopRepositoryBuilder().ShopExists(shopId).Build();
         var unitOfWork = UnitOfWorkBuilder.Build();

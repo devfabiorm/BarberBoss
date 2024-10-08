@@ -4,7 +4,7 @@ using BarberBoss.Exception;
 using BarberBoss.Exception.Messages;
 
 namespace BarberBoss.Application.UseCases.Invoices.Delete;
-internal class DeleteInvoiceUseCase : IDeleteInvoiceUseCase
+public class DeleteInvoiceUseCase : IDeleteInvoiceUseCase
 {
     private readonly IWriteOnlyInvoiceRepository _repository;
     private readonly IUnitOfWork _unitOfWork;

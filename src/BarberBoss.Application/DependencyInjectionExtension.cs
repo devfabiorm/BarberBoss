@@ -1,5 +1,7 @@
 ﻿using BarberBoss.Application.AutoMapper;
+using BarberBoss.Application.UseCases.BarberShops.Delete;
 using BarberBoss.Application.UseCases.BarberShops.GetAll;
+using BarberBoss.Application.UseCases.BarberShops.GetById;
 using BarberBoss.Application.UseCases.BarberShops.Register;
 using BarberBoss.Application.UseCases.Invoices.Delete;
 using BarberBoss.Application.UseCases.Invoices.GetAll;
@@ -41,6 +43,9 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
         services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
         services.AddScoped<IDeleteUserAccountUseCase, DeleteUserAccountUseCase>();
+        services.AddScoped<IGetBarberShopByIdUseCase, GetBarberShopByIdUseCase>();
+        services.AddScoped<IDeleteBarberShopUseCase, DeleteBarberShopUseCase>();
+        services.AddScoped<IGetBarberShopByIdUseCase, GetBarberShopByIdUseCase>();
     }
 
     private static void AddMapper(this IServiceCollection services) 

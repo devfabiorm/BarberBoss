@@ -5,11 +5,13 @@ using BarberBoss.Application.UseCases.Invoices.Register;
 using BarberBoss.Application.UseCases.Invoices.Update;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarberBoss.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class InvoicesController : ControllerBase
 {
     [HttpPost]

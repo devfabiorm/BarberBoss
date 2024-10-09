@@ -17,9 +17,19 @@ internal class BarberShopRepository : IWriteOnlyBarberShopRepository, IReadOnlyB
         await _dbContext.BarberShops.AddAsync(shop);
     }
 
+    public void Delete(BarberShop shop)
+    {
+        _dbContext.BarberShops.Remove(shop);
+    }
+
     public async Task<IEnumerable<BarberShop>> GetAll()
     {
         return await _dbContext.BarberShops.ToListAsync();
+    }
+
+    public async Task<BarberShop?> GetById(long id)
+    {
+        return await _dbContext.BarberShops.SingleOrDefaultAsync(shop => shop.Id == id);
     }
 
     public async Task<bool> ShopExist(long id)

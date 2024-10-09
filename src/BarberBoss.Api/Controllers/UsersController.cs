@@ -29,7 +29,8 @@ public class UsersController : ControllerBase
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateAdapter(
+    [Authorize]
+    public async Task<IActionResult> Update(
         [FromServices] IUpdateUserUseCase useCase,
         [FromBody] RequestUpdateUserJson request)
     {
@@ -41,6 +42,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     [Authorize]
     [ProducesResponseType(typeof(ResponseUserJson), StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<IActionResult> GetProfile([FromServices] IGetUserProfileUseCase useCase)
     {
         var profile = await useCase.Execute();
@@ -51,6 +53,7 @@ public class UsersController : ControllerBase
     [HttpDelete]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [Authorize]
     public async Task<IActionResult> Delete([FromServices] IDeleteUserAccountUseCase useCase)
     {
         await useCase.Execute();

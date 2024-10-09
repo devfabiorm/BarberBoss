@@ -5,4 +5,5 @@ public interface IReadOnlyBarberShopRepository
 {
     Task<bool> ShopExist(long id);
     Task<IEnumerable<BarberShop>> GetAll();
+    Task<BarberShop?> GetById(long id);
 }

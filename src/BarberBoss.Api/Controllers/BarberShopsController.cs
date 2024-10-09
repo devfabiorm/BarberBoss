@@ -1,13 +1,18 @@
-﻿using BarberBoss.Application.UseCases.BarberShops.GetAll;
+﻿using BarberBoss.Application.UseCases.BarberShops.Delete;
+using BarberBoss.Application.UseCases.BarberShops.GetAll;
+using BarberBoss.Application.UseCases.BarberShops.GetById;
 using BarberBoss.Application.UseCases.BarberShops.Register;
 using BarberBoss.Communication.Requests;
 using BarberBoss.Communication.Responses;
+using BarberBoss.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarberBoss.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = Roles.Admin)]
 public class BarberShopsController : ControllerBase
 {
     [HttpPost]
@@ -20,6 +25,18 @@ public class BarberShopsController : ControllerBase
         var barberShop = await useCase.Execute(request);
 
         return Ok(barberShop);
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(typeof(ResponseBarberShopJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById([FromRoute] long id,
+        [FromServices] IGetBarberShopByIdUseCase useCase)
+    {
+        var result = await useCase.Execute(id);
+
+        return Ok(result);
     }
 
     [HttpGet]
@@ -36,5 +53,17 @@ public class BarberShopsController : ControllerBase
         }
 
         return Ok(barberShops);
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] long id,
+        [FromServices] IDeleteBarberShopUseCase useCase)
+    {
+        await useCase.Delete(id);
+
+        return NoContent();
     }
 }

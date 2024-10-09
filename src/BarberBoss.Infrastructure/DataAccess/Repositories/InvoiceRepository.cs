@@ -17,9 +17,10 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
        await _dbContext.Invoices.AddAsync(invoice);
     }
 
-    public async Task<bool> Delete(long id)
+    public async Task<bool> Delete(long id, User user)
     {
-        var invoice = await _dbContext.Invoices.SingleOrDefaultAsync(x => x.Id == id);
+        var invoice = await _dbContext.Invoices
+            .SingleOrDefaultAsync(invoice => invoice.Id == id && invoice.UserId == user.Id);
 
         if (invoice == null) 
         {
@@ -31,27 +32,28 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
         return true;
     }
 
-    public async Task<IList<Invoice>> GetAll()
+    public async Task<IList<Invoice>> GetAll(User user)
     {
         return await _dbContext
             .Invoices
             .AsNoTracking()
+            .Where(invoice => invoice.UserId == user.Id)
             .ToListAsync();
     }
 
-    async Task<Invoice?> IUpdateOnlyInvoiceRepository.GetById(long id)
+    async Task<Invoice?> IUpdateOnlyInvoiceRepository.GetById(long id, User user)
     {
         return await _dbContext
             .Invoices
-            .SingleOrDefaultAsync(invoice => invoice.Id == id);
+            .SingleOrDefaultAsync(invoice => invoice.Id == id && invoice.UserId == user.Id);
     }
 
-    async Task<Invoice?> IReadOnlyInvoiceRepository.GetById(long id)
+    async Task<Invoice?> IReadOnlyInvoiceRepository.GetById(long id, User user)
     {
         return await _dbContext
             .Invoices
             .AsNoTracking()
-            .SingleOrDefaultAsync(invoice => invoice.Id == id);
+            .SingleOrDefaultAsync(invoice => invoice.Id == id && invoice.UserId == user.Id);
     }
 
     public void Update(Invoice invoice)
@@ -59,7 +61,7 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
         _dbContext.Invoices.Update(invoice);
     }
 
-    public async Task<List<Invoice>> FilterByWeek(DateOnly date)
+    public async Task<List<Invoice>> FilterByWeek(DateOnly date, User user)
     {
         var beginningOfTheWeek = date.AddDays(DayOfWeek.Sunday - date.DayOfWeek);
         var startDate = new DateTime(year: beginningOfTheWeek.Year, month: beginningOfTheWeek.Month, day: beginningOfTheWeek.Day, hour: 0, minute: 0, second: 0);
@@ -69,7 +71,7 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
         return await _dbContext
             .Invoices
             .AsNoTracking()
-            .Where(invoice => invoice.Date >= startDate && invoice.Date <= endDate)
+            .Where(invoice => invoice.Date >= startDate && invoice.Date <= endDate && invoice.UserId == user.Id)
             .OrderBy(invoice => invoice.Date)
             .ThenBy(invoice => invoice.Title)
             .ToListAsync();

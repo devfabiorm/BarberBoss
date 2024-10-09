@@ -3,6 +3,7 @@ using BarberBoss.Domain.Entities;
 using BarberBoss.Exception;
 using BarberBoss.Exception.Messages;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using FluentAssertions;
@@ -18,7 +19,7 @@ public class GetInvoiceByIdUseCaseTests
         var barberShop = BarberShopBuilder.Build();
         var invoice = InvoiceBuilder.Build(user, barberShop);
 
-        var useCase = CreateUseCase(invoice);
+        var useCase = CreateUseCase(invoice, user);
 
         //Act
         var result = await useCase.Execute(invoice.Id);
@@ -40,7 +41,7 @@ public class GetInvoiceByIdUseCaseTests
         var barberShop = BarberShopBuilder.Build();
         var invoice = InvoiceBuilder.Build(user, barberShop);
 
-        var useCase = CreateUseCase(invoice);
+        var useCase = CreateUseCase(invoice, user);
 
         //Act
         var act = async () => await useCase.Execute(1000);
@@ -50,11 +51,14 @@ public class GetInvoiceByIdUseCaseTests
         result.Where(ex => ex.GetErrorMessages().Count == 1 && ex.GetErrorMessages().Contains(ResourceErrorMessages.INVOICE_NOT_FOUND));
     }
 
-    private GetInvoiceByIdUseCase CreateUseCase(Invoice invoice)
+    private GetInvoiceByIdUseCase CreateUseCase(Invoice invoice, User user)
     {
-        var repository = new ReadOnlyInvoiceRepositoryBuilder().GetById(invoice).Build();
+        var repository = new ReadOnlyInvoiceRepositoryBuilder()
+            .GetById(user, invoice)
+            .Build();
         var mapper = MapperBuilder.Build();
+        var loggedUser = LoggedUserBuilder.Build(user);
 
-        return new GetInvoiceByIdUseCase(repository, mapper); ;
+        return new GetInvoiceByIdUseCase(repository, mapper, loggedUser); ;
     }
 }

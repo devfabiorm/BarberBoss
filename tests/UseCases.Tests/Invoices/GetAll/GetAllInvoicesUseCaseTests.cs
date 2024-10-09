@@ -1,6 +1,7 @@
 ﻿using BarberBoss.Application.UseCases.Invoices.GetAll;
 using BarberBoss.Domain.Entities;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using FluentAssertions;
@@ -16,7 +17,7 @@ public class GetAllInvoicesUseCaseTests
         var barberShop = BarberShopBuilder.Build();
         var invoices = InvoiceBuilder.Collection(user, barberShop);
 
-        var useCase = CreateUseCase(invoices);
+        var useCase = CreateUseCase(invoices, user);
 
         //Act
         var result = await useCase.Execute();
@@ -35,7 +36,7 @@ public class GetAllInvoicesUseCaseTests
         var barberShop = BarberShopBuilder.Build();
         var invoices = new List<Invoice>();
 
-        var useCase = CreateUseCase(invoices);
+        var useCase = CreateUseCase(invoices, user);
 
         //Act
         var result = await useCase.Execute();
@@ -45,13 +46,13 @@ public class GetAllInvoicesUseCaseTests
         result.Invoices.Should().BeEmpty();
     }
 
-    private GetAllInvoicesUseCase CreateUseCase(List<Invoice> invoices)
+    private GetAllInvoicesUseCase CreateUseCase(List<Invoice> invoices, User user)
     {
-        var repository = new ReadOnlyInvoiceRepositoryBuilder();
-        repository.GetAll(invoices);
+        var repository = new ReadOnlyInvoiceRepositoryBuilder().GetAll(user, invoices).Build();
         var mapper = MapperBuilder.Build();
+        var loggedUser = LoggedUserBuilder.Build(user);
 
 
-        return new GetAllInvoicesUseCase(repository.Build(), mapper);
+        return new GetAllInvoicesUseCase(repository, mapper, loggedUser);
     }
 }

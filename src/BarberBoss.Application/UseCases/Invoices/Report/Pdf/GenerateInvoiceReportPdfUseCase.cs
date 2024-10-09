@@ -8,6 +8,7 @@ using MigraDoc.DocumentObjectModel.Tables;
 using BarberBoss.Domain.Extensions;
 using BarberBoss.Application.UseCases.Invoices.Report.Pdf.Colors;
 using MigraDoc.Rendering;
+using BarberBoss.Domain.Services.LoggedUser;
 
 namespace BarberBoss.Application.UseCases.Invoices.Report.Pdf;
 public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
@@ -16,17 +17,22 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
     private const int HEIGHT_ROW_EXPENSE_TABLE = 25;
     private const int HEADER_HEIGHT = 62;
     private readonly IReadOnlyInvoiceRepository _repository;
+    private readonly ILoggedUser _loggedUser;
 
-    public GenerateInvoiceReportPdfUseCase(IReadOnlyInvoiceRepository repository)
+    public GenerateInvoiceReportPdfUseCase(
+        IReadOnlyInvoiceRepository repository,
+        ILoggedUser loggedUser)
     {
         _repository = repository;
+        _loggedUser = loggedUser;
 
         GlobalFontSettings.FontResolver = new InvoiceReportFontResolver();
     }
 
     public async Task<byte[]> Execute(DateOnly date)
     {
-        var invoices = await _repository.FilterByWeek(date);
+        var loggedUser = await _loggedUser.Get();
+        var invoices = await _repository.FilterByWeek(date, loggedUser);
 
         if (invoices.Count == 0) 
         {

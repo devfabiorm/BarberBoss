@@ -1,6 +1,7 @@
 ﻿using BarberBoss.Application.UseCases.Invoices.Report.Pdf;
 using BarberBoss.Domain.Entities;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Repositories;
 using FluentAssertions;
 
@@ -16,7 +17,7 @@ public class GenerateInvoiceReportPdfUseCaseTests
 
         var invoices = InvoiceBuilder.Collection(user, barberShop);
 
-        var useCase = CreateUseCase(invoices);
+        var useCase = CreateUseCase(invoices, user);
 
         //Act
         var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today));
@@ -30,7 +31,8 @@ public class GenerateInvoiceReportPdfUseCaseTests
     public async Task Empty_Return()
     {
         //Arrange
-         var useCase = CreateUseCase([]);
+        var user = UserBuilder.Build();
+        var useCase = CreateUseCase([], user);
 
         //Act
         var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today));
@@ -40,12 +42,13 @@ public class GenerateInvoiceReportPdfUseCaseTests
         result.Should().BeEmpty();
     }
 
-    private GenerateInvoiceReportPdfUseCase CreateUseCase(List<Invoice> invoices)
+    private GenerateInvoiceReportPdfUseCase CreateUseCase(List<Invoice> invoices, User user)
     {
         var repository = new ReadOnlyInvoiceRepositoryBuilder()
-            .FilterByWeek(invoices)
+            .FilterByWeek(user, invoices)
             .Build();
+        var loggedUser = LoggedUserBuilder.Build(user);
 
-        return new GenerateInvoiceReportPdfUseCase(repository);
+        return new GenerateInvoiceReportPdfUseCase(repository, loggedUser);
     }
 }

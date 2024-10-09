@@ -1,6 +1,7 @@
 ﻿using BarberBoss.Domain.Extensions;
 using BarberBoss.Domain.Reports;
 using BarberBoss.Domain.Repositories.Invoices;
+using BarberBoss.Domain.Services.LoggedUser;
 using ClosedXML.Excel;
 
 namespace BarberBoss.Application.UseCases.Invoices.Report.Excel;
@@ -8,15 +9,18 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
 {
     private const string CURRENT_CURRENCY = "$";
     private readonly IReadOnlyInvoiceRepository _repository;
+    private readonly ILoggedUser _loggedUser;
 
-    public GenerateInvoiceReportExcelUseCase(IReadOnlyInvoiceRepository repository)
+    public GenerateInvoiceReportExcelUseCase(IReadOnlyInvoiceRepository repository, ILoggedUser loggedUser)
     {
         _repository = repository;
+        _loggedUser = loggedUser;
     }
 
     public async Task<byte[]> Execute(DateOnly month)
     {
-        var invoices = await _repository.FilterByWeek(month);
+        var loggedUser = await _loggedUser.Get();
+        var invoices = await _repository.FilterByWeek(month, loggedUser);
 
         if (invoices.Count == 0)
         {

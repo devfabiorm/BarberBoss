@@ -2,6 +2,7 @@
 using BarberBoss.Communication.Requests;
 using BarberBoss.Domain.Repositories;
 using BarberBoss.Domain.Repositories.Invoices;
+using BarberBoss.Domain.Services.LoggedUser;
 using BarberBoss.Exception;
 using BarberBoss.Exception.Messages;
 
@@ -11,19 +12,26 @@ public class InvoiceUpdateUseCase : IInvoiceUpdateUseCase
     private readonly IUpdateOnlyInvoiceRepository _repository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILoggedUser _loggedUser;
 
-    public InvoiceUpdateUseCase(IUpdateOnlyInvoiceRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+    public InvoiceUpdateUseCase(
+        IUpdateOnlyInvoiceRepository repository,
+        IMapper mapper,
+        IUnitOfWork unitOfWork,
+        ILoggedUser loggedUser)
     {
         _repository = repository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
+        _loggedUser = loggedUser;
     }
 
     public async Task Execute(long id, RequestInvoiceJson request)
     {
         Validate(request);
 
-        var invoice = await _repository.GetById(id);
+        var loggedUser = await _loggedUser.Get();
+        var invoice = await _repository.GetById(id, loggedUser);
 
         if (invoice is null) 
         {

@@ -12,26 +12,26 @@ public class ReadOnlyInvoiceRepositoryBuilder
           _repository = new Mock<IReadOnlyInvoiceRepository>();
     }
 
-    public ReadOnlyInvoiceRepositoryBuilder GetAll(List<Invoice> invoices)
+    public ReadOnlyInvoiceRepositoryBuilder GetAll(User user, List<Invoice> invoices)
     {
-        _repository.Setup(repo => repo.GetAll()).ReturnsAsync(invoices);
+        _repository.Setup(repo => repo.GetAll(user)).ReturnsAsync(invoices);
 
         return this;
     }
 
-    public ReadOnlyInvoiceRepositoryBuilder GetById(Invoice invoice)
+    public ReadOnlyInvoiceRepositoryBuilder GetById(User user, Invoice invoice)
     {
         if (invoice is not null)
         {
-            _repository.Setup(repo => repo.GetById(invoice.Id)).ReturnsAsync(invoice);
+            _repository.Setup(repo => repo.GetById(invoice.Id, user)).ReturnsAsync(invoice);
         }
 
         return this;
     }
 
-    public ReadOnlyInvoiceRepositoryBuilder FilterByWeek(List<Invoice> invoices)
+    public ReadOnlyInvoiceRepositoryBuilder FilterByWeek(User user, List<Invoice> invoices)
     {
-        _repository.Setup(repo => repo.FilterByWeek(It.IsAny<DateOnly>())).ReturnsAsync(invoices);
+        _repository.Setup(repo => repo.FilterByWeek(It.IsAny<DateOnly>(), user)).ReturnsAsync(invoices);
         
         return this;
     }

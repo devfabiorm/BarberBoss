@@ -13,11 +13,11 @@ public class UpdateOnlyInvoiceRepositoryBuilder
         _mock = new Mock<IUpdateOnlyInvoiceRepository>();
     }
 
-    public UpdateOnlyInvoiceRepositoryBuilder GetById(Invoice invoice)
+    public UpdateOnlyInvoiceRepositoryBuilder GetById(User user, Invoice invoice)
     {
         if (invoice is not null)
         {
-            _mock.Setup(repo => repo.GetById(invoice.Id)).ReturnsAsync(invoice);
+            _mock.Setup(repo => repo.GetById(invoice.Id, user)).ReturnsAsync(invoice);
         }
 
         return this;

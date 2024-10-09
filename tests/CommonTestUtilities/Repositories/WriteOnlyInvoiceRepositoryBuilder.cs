@@ -12,11 +12,11 @@ public class WriteOnlyInvoiceRepositoryBuilder
         _mock = new Mock<IWriteOnlyInvoiceRepository>();
     }
 
-    public WriteOnlyInvoiceRepositoryBuilder Delete(Invoice invoice)
+    public WriteOnlyInvoiceRepositoryBuilder Delete(User user, Invoice invoice)
     {
         if (invoice is not null)
         {
-            _mock.Setup(repo => repo.Delete(invoice.Id)).ReturnsAsync(true);
+            _mock.Setup(repo => repo.Delete(invoice.Id, user)).ReturnsAsync(true);
         }
 
         return this;

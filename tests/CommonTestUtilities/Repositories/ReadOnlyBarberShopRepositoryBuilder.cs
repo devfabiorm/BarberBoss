@@ -30,5 +30,15 @@ public class ReadOnlyBarberShopRepositoryBuilder
         return this;
     }
 
+    public ReadOnlyBarberShopRepositoryBuilder GetById(BarberShop shop)
+    {
+        if (shop is not null)
+        {
+            _repository.Setup(repo => repo.GetById(shop.Id)).ReturnsAsync(shop);
+        }
+
+        return this;
+    }
+
     public IReadOnlyBarberShopRepository Build() => _repository.Object;
 }

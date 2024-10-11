@@ -9,4 +9,5 @@ public class RequestInvoiceJson
     public EPaymentType PaymentType { get; set; }
     public DateTime Date { get; set; }
     public long BarberShopId { get; set; }
+    public long UserId { get; set; }
 }

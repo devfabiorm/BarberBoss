@@ -21,7 +21,7 @@ public class InvoicesController : ControllerBase
     {
         var response = await useCase.Execute(request);
 
-        return CreatedAtAction(nameof(GetById), new { Id = response.Id }, response);
+        return CreatedAtAction(nameof(GetById), new { response.Id }, response);
     }
 
     [HttpGet]

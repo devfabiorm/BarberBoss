@@ -1,6 +1,7 @@
 ﻿using BarberBoss.Domain.Entities;
 using BarberBoss.Domain.Repositories.Invoices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace BarberBoss.Infrastructure.DataAccess.Repositories;
 internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoiceRepository, IUpdateOnlyInvoiceRepository
@@ -43,15 +44,13 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
 
     async Task<Invoice?> IUpdateOnlyInvoiceRepository.GetById(long id, User user)
     {
-        return await _dbContext
-            .Invoices
+        return await GetFullInvoice()
             .SingleOrDefaultAsync(invoice => invoice.Id == id && invoice.UserId == user.Id);
     }
 
     async Task<Invoice?> IReadOnlyInvoiceRepository.GetById(long id, User user)
     {
-        return await _dbContext
-            .Invoices
+        return await GetFullInvoice()
             .AsNoTracking()
             .SingleOrDefaultAsync(invoice => invoice.Id == id && invoice.UserId == user.Id);
     }
@@ -75,5 +74,13 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
             .OrderBy(invoice => invoice.Date)
             .ThenBy(invoice => invoice.Title)
             .ToListAsync();
+    }
+
+    private IIncludableQueryable<Invoice, BarberShop> GetFullInvoice()
+    {
+        return _dbContext
+            .Invoices
+            .Include(invoice => invoice.User)
+            .Include(invoice => invoice.BarberShop);
     }
 }

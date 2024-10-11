@@ -12,19 +12,19 @@ namespace BarberBoss.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = Roles.Admin)]
 public class BarberShopsController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(typeof(ResponseBarberShopJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterBarberShopUseCase useCase,
         [FromBody] RequestRegisterBarberShopJson request)
     {
         var barberShop = await useCase.Execute(request);
 
-        return Ok(barberShop);
+        return CreatedAtAction(nameof(GetById), new { barberShop.Id }, barberShop);
     }
 
     [HttpGet]

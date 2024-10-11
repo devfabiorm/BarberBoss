@@ -20,7 +20,7 @@ public class DeleteBarberShopUseCase : IDeleteBarberShopUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Delete(long id)
+    public async Task Execute(long id)
     {
         var barberShop = await _readOnlyRepository.GetById(id);
 

@@ -62,7 +62,7 @@ public class BarberShopsController : ControllerBase
     public async Task<IActionResult> Delete([FromRoute] long id,
         [FromServices] IDeleteBarberShopUseCase useCase)
     {
-        await useCase.Delete(id);
+        await useCase.Execute(id);
 
         return NoContent();
     }

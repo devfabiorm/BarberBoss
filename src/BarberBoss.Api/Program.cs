@@ -4,6 +4,7 @@ using BarberBoss.Api.Token;
 using BarberBoss.Application;
 using BarberBoss.Domain.Security.Token;
 using BarberBoss.Infrastructure;
+using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -89,7 +90,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await MigrateDatabase();
+if(!builder.Configuration.IsTestEnvironment())
+{
+    await MigrateDatabase();
+}
 
 app.Run();
 

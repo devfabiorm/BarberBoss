@@ -7,6 +7,7 @@ using BarberBoss.Domain.Security.Token;
 using BarberBoss.Domain.Services.LoggedUser;
 using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.DataAccess.Repositories;
+using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Security.Cryptography;
 using BarberBoss.Infrastructure.Security.Tokens;
 using BarberBoss.Infrastructure.Services.LoggedUser;
@@ -22,8 +23,12 @@ public static class DependencyInjectionExtension
         services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
         services.AddScoped<ILoggedUser, LoggedUser>();
         AddToken(services, configuration);
-        AddDbContext(services, configuration);
         AddRepositories(services);
+
+        if(!configuration.IsTestEnvironment())
+        {
+            AddDbContext(services, configuration);
+        }
     }
 
     private static void AddToken(IServiceCollection services, IConfiguration configuration)
@@ -50,9 +55,7 @@ public static class DependencyInjectionExtension
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Connection");
-
-        var version = new Version(8, 0, 37);
-        var serverVersion = new MySqlServerVersion(version);
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
 
         services.AddDbContext<BarberBossDbContext>(config => config.UseMySql(connectionString, serverVersion));
     }

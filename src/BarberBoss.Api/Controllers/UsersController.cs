@@ -22,7 +22,7 @@ public class UsersController : ControllerBase
     {
         var result = await useCase.Execute(request);
 
-        return Ok(result);
+        return CreatedAtAction(nameof(GetProfile), result);
     }
 
     [HttpPut]

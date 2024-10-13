@@ -5,15 +5,15 @@ using System.Net;
 using System.Net.Http.Json;
 
 namespace WebApi.Tests.Users.Register;
-public class RegisterUserTests : IClassFixture<WebApplicationFactory<Program>>
+public class RegisterUserTests : IClassFixture<CustomWebApplicationFactory>
 {
     private const string METHOD = "api/Users";
 
     private readonly HttpClient _httpClient;
 
-    public RegisterUserTests(WebApplicationFactory<Program> webApplication)
+    public RegisterUserTests(CustomWebApplicationFactory webApplicationFactory)
     {
-        _httpClient = webApplication.CreateClient();
+        _httpClient = webApplicationFactory.CreateClient();
     }
 
     [Fact]

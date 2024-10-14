@@ -3,13 +3,13 @@ public class ResponseErrorJson
 {
     public ResponseErrorJson(List<string> errorMessages)
     {
-        Errors = errorMessages;
+        ErrorMessages = errorMessages;
     }
 
     public ResponseErrorJson(string errorMessage)
     {
-        Errors = [errorMessage];
+        ErrorMessages = [errorMessage];
     }
 
-    public List<string> Errors { get; }
+    public List<string> ErrorMessages { get; }
 }

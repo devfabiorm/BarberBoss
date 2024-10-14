@@ -124,7 +124,7 @@ namespace BarberBoss.Exception.Messages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name provided is invalid.
+        ///   Looks up a localized string similar to The shop name provided is invalid.
         /// </summary>
         public static string INVALID_SHOP_NAME {
             get {

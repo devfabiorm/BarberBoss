@@ -118,45 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="INVALID_PAYMENT_TYPE" xml:space="preserve">
-    <value>The payment type needs to be a valid one</value>
+    <value>Le type de paiement doit être valide</value>
   </data>
   <data name="INVOICE_AMOUNT_GREATER_THAN_ZERO" xml:space="preserve">
-    <value>The invoice value amount needs to be greater than zero</value>
+    <value>Le montant de la valeur de la facture doit être supérieur à zéro</value>
   </data>
   <data name="INVOICE_DATE_NEEDS_OLDER_THAN_CURRENT" xml:space="preserve">
-    <value>The invoice needs to be of a older date than today</value>
+    <value>La facture doit être antérieure à la date d'aujourd'hui</value>
   </data>
   <data name="INVOICE_NOT_FOUND" xml:space="preserve">
-    <value>Invoice could not be found in database</value>
+    <value>La facture n'a pas pu être trouvée dans la base de données</value>
   </data>
-  <data name="REQUIRED_TITLE" xml:space="preserve">
-    <value>Title is a required field</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="REQUIRED_TITLE" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
-    <value>Unknown error</value>
+    <value>Erreur inconnue</value>
   </data>
   <data name="INVALID_SHOP_NAME" xml:space="preserve">
-    <value>The shop name provided is invalid</value>
+    <value>Le nom de la boutique fourni n'est pas valide</value>
   </data>
   <data name="INVALID_SHOP_ADDRESS" xml:space="preserve">
-    <value>A valid address must be provided</value>
+    <value>Une adresse valide doit être fournie</value>
   </data>
   <data name="INVALID_SHOP_ID" xml:space="preserve">
-    <value>Invalid shop number</value>
+    <value>Numéro de magasin invalide</value>
   </data>
   <data name="NAME_REQUIRED" xml:space="preserve">
-    <value>The name cannot be null or empty</value>
+    <value>Le nom ne peut pas être nul ou vide</value>
   </data>
   <data name="EMAIL_EMPTY" xml:space="preserve">
-    <value>An email need be provided</value>
+    <value>Une adresse e-mail doit être fournie</value>
   </data>
   <data name="INVALID_EMAIL" xml:space="preserve">
-    <value>The email provided is invalid</value>
+    <value>L'e-mail fourni n'est pas valide</value>
   </data>
   <data name="INVALID_CREDENTIALS" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>Informations d'identification non valides</value>
   </data>
   <data name="EMAIL_ALREADY_EXISTS" xml:space="preserve">
-    <value>Email cannot be used because already there's an user using it</value>
+    <value>L'e-mail ne peut pas être utilisé car un utilisateur l'utilise déjà</value>
   </data>
 </root>

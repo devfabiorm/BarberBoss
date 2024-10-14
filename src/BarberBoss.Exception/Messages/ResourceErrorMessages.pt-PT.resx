@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="INVALID_PAYMENT_TYPE" xml:space="preserve">
-    <value>The payment type needs to be a valid one</value>
+    <value>O tipo de pagamento precisa de ser válido</value>
   </data>
   <data name="INVOICE_AMOUNT_GREATER_THAN_ZERO" xml:space="preserve">
-    <value>The invoice value amount needs to be greater than zero</value>
+    <value>O valor do valor da fatura necessita de ser superior a zero</value>
   </data>
   <data name="INVOICE_DATE_NEEDS_OLDER_THAN_CURRENT" xml:space="preserve">
-    <value>The invoice needs to be of a older date than today</value>
+    <value>A fatura necessita de ser de uma data anterior à atual</value>
   </data>
   <data name="INVOICE_NOT_FOUND" xml:space="preserve">
-    <value>Invoice could not be found in database</value>
+    <value>A fatura não foi encontrada na base de dados</value>
   </data>
   <data name="REQUIRED_TITLE" xml:space="preserve">
-    <value>Title is a required field</value>
+    <value>O título é um campo de preenchimento obrigatório</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
-    <value>Unknown error</value>
+    <value>Erro desconhecido</value>
   </data>
   <data name="INVALID_SHOP_NAME" xml:space="preserve">
-    <value>The shop name provided is invalid</value>
+    <value>Nome da loja inválido</value>
   </data>
   <data name="INVALID_SHOP_ADDRESS" xml:space="preserve">
-    <value>A valid address must be provided</value>
+    <value>Um endereço válido deve ser fornecido</value>
   </data>
   <data name="INVALID_SHOP_ID" xml:space="preserve">
-    <value>Invalid shop number</value>
+    <value>Número de loja inválido</value>
   </data>
   <data name="NAME_REQUIRED" xml:space="preserve">
-    <value>The name cannot be null or empty</value>
+    <value>O nome não pode ser nulo ou vazio</value>
   </data>
   <data name="EMAIL_EMPTY" xml:space="preserve">
-    <value>An email need be provided</value>
+    <value>Um e-mail precisa de ser fornecido</value>
   </data>
   <data name="INVALID_EMAIL" xml:space="preserve">
-    <value>The email provided is invalid</value>
+    <value>O e-mail fornecido é inválido</value>
   </data>
   <data name="INVALID_CREDENTIALS" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>Credenciais inválidas</value>
   </data>
   <data name="EMAIL_ALREADY_EXISTS" xml:space="preserve">
-    <value>Email cannot be used because already there's an user using it</value>
+    <value>O e-mail não pode ser utilizado porque já existe um utilizador a utilizá-lo</value>
   </data>
 </root>

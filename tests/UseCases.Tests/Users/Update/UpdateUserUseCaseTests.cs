@@ -84,7 +84,7 @@ public class UpdateUserUseCaseTests
 
     private UpdateUserUseCase CreateUseCase(User user)
     {
-        var readOnlyRepository = new ReadOnlyUserRepositoryBuilder().GetByEmail(user.Email).Build();
+        var readOnlyRepository = new ReadOnlyUserRepositoryBuilder().HasActiveEmail(user.Email).Build();
         var loggedUser = LoggedUserBuilder.Build(user);
         var repository = UpdateOnlyUserRepositoryBuilder.Build();
         var mapper = MapperBuilder.Build();

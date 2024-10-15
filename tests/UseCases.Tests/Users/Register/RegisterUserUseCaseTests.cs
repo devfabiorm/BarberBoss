@@ -101,7 +101,7 @@ public class RegisterUserUseCaseTests
 
         if (!string.IsNullOrWhiteSpace(email))
         {
-            readOnlyRepository.GetByEmail(email);
+            readOnlyRepository.HasActiveEmail(email);
         }
 
         return new RegisterUserUseCase(

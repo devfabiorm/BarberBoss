@@ -1,4 +1,5 @@
-﻿using BarberBoss.Domain.Repositories.Users;
+﻿using BarberBoss.Domain.Entities;
+using BarberBoss.Domain.Repositories.Users;
 using Moq;
 
 namespace CommonTestUtilities.Repositories;
@@ -11,11 +12,21 @@ public class ReadOnlyUserRepositoryBuilder
         _userRepositoryMock = new Mock<IReadOnlyUserRepository>();
     }
 
-    public ReadOnlyUserRepositoryBuilder GetByEmail(string email)
+    public ReadOnlyUserRepositoryBuilder HasActiveEmail(string email)
     {
         if (!string.IsNullOrWhiteSpace(email))
         {
             _userRepositoryMock.Setup(r => r.HasActiveEmail(email)).ReturnsAsync(true);
+        }
+
+        return this;
+    }
+
+    public ReadOnlyUserRepositoryBuilder GetByEmail(User user)
+    {
+        if (user is not null)
+        {
+            _userRepositoryMock.Setup(r => r.GetByEmail(user.Email)).ReturnsAsync(user);
         }
 
         return this;

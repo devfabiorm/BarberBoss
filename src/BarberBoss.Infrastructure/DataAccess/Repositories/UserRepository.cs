@@ -27,7 +27,7 @@ internal class UserRepository : IWriteOnlyUserRepository, IReadOnlyUserRepositor
         return await _dbContext.Users.FirstAsync(user => user.Id == id);
     }
 
-    public async Task<User?> GetUserByEmail(string email)
+    public async Task<User?> GetByEmail(string email)
     {
         return await _dbContext
             .Users

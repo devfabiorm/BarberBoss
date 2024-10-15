@@ -24,7 +24,7 @@ public class DoLoginUseCase : IDoLoginUseCase
 
     public async Task<ResponseLoggedJson> Execute(RequestLoginJson request)
     {
-        var user = await _repository.GetUserByEmail(request.Email);
+        var user = await _repository.GetByEmail(request.Email);
 
         if (user is null)
         {

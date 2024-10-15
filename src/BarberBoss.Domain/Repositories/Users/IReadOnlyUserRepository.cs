@@ -3,6 +3,6 @@
 namespace BarberBoss.Domain.Repositories.Users;
 public interface IReadOnlyUserRepository
 {
-    Task<User?> GetUserByEmail(string email);
+    Task<User?> GetByEmail(string email);
     Task<bool> HasActiveEmail(string email);
 }

@@ -11,9 +11,9 @@ internal class JwtTokenGenerator : IAccessTokenGenerator
     private readonly uint _expirationTimeMinutos;
     private readonly string _signingKey;
 
-    public JwtTokenGenerator(uint expirationTimeMinutos, string signingKey)
+    public JwtTokenGenerator(uint expirationTimeMinutes, string signingKey)
     {
-        _expirationTimeMinutos = expirationTimeMinutos;
+        _expirationTimeMinutos = expirationTimeMinutes;
         _signingKey = signingKey;
     }
 

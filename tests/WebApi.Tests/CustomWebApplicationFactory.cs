@@ -1,5 +1,5 @@
-﻿using BarberBoss.Domain.Entities;
-using BarberBoss.Domain.Security.Cryptography;
+﻿using BarberBoss.Domain.Security.Cryptography;
+using BarberBoss.Domain.Security.Token;
 using BarberBoss.Infrastructure.DataAccess;
 using CommonTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 namespace WebApi.Tests;
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    public string UserName { get; private set; } = string.Empty;
     public string UserEmail { get; private set; } = string.Empty;
     public string UserPassword { get; private set; } = string.Empty;
+    public string UserToken { get; private set; } = string.Empty;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -31,19 +33,23 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 var scope = services.BuildServiceProvider().CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<BarberBossDbContext>();
                 var passwordEncrypter = scope.ServiceProvider.GetRequiredService<IPasswordEncrypter>();
+                var accessTokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
 
-                InitializeDatabase(dbContext, passwordEncrypter);
+                InitializeDatabase(dbContext, passwordEncrypter, accessTokenGenerator);
             });
     }
 
-    private void InitializeDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter)
+    private void InitializeDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
     {
        var user =  UserBuilder.Build();
 
+        UserName = user.Name;
         UserEmail = user.Email;
         UserPassword = user.Password;
 
         user.Password = passwordEncrypter.Encrypt(user.Password);
+
+        UserToken = accessTokenGenerator.Generate(user);
 
         dbContext.Users.Add(user);
 

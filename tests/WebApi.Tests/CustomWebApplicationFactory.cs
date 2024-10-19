@@ -14,6 +14,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     public string UserEmail { get; private set; } = string.Empty;
     public string UserPassword { get; private set; } = string.Empty;
     public string UserToken { get; private set; } = string.Empty;
+    public long UserId { get; private set; }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -46,6 +47,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         UserName = user.Name;
         UserEmail = user.Email;
         UserPassword = user.Password;
+        UserId = user.Id;
 
         user.Password = passwordEncrypter.Encrypt(user.Password);
 

@@ -1,4 +1,5 @@
-﻿using BarberBoss.Domain.Security.Cryptography;
+﻿using BarberBoss.Domain.Entities;
+using BarberBoss.Domain.Security.Cryptography;
 using BarberBoss.Domain.Security.Token;
 using BarberBoss.Infrastructure.DataAccess;
 using CommonTestUtilities.Entities;
@@ -6,16 +7,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Tests.Resources;
 
 namespace WebApi.Tests;
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    public string UserName { get; private set; } = string.Empty;
-    public string UserEmail { get; private set; } = string.Empty;
-    public string UserPassword { get; private set; } = string.Empty;
-    public string UserToken { get; private set; } = string.Empty;
-    public long UserId { get; private set; }
-    public long ShopId { get; private set; }
+    public UserIdentityManager User_TeamMember { get; private set; } = default!;
+    public UserIdentityManager User_Admin { get; private set; } = default!;
+    public InvoiceIdentityManager Invoice { get; private set; } = default!;
+    public BarberShopIdentityManager Shop { get; private set; } = default!;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -37,35 +37,52 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 var passwordEncrypter = scope.ServiceProvider.GetRequiredService<IPasswordEncrypter>();
                 var accessTokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
 
-                InitializeUserDatabase(dbContext, passwordEncrypter, accessTokenGenerator);
-                InitializeBarberShopDatabase(dbContext);
+                var user = InitializeUserDatabase(dbContext, passwordEncrypter, accessTokenGenerator);
+                var shop = InitializeBarberShopDatabase(dbContext);
+                InitializeInvoiceDatabase(dbContext, user, shop);
+
             });
     }
 
-    private void InitializeUserDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
+    private User InitializeUserDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
     {
        var user =  UserBuilder.Build();
 
-        UserName = user.Name;
-        UserEmail = user.Email;
-        UserPassword = user.Password;
-        UserId = user.Id;
-
+        var rawPassword = user.Password;
+        
         user.Password = passwordEncrypter.Encrypt(user.Password);
 
-        UserToken = accessTokenGenerator.Generate(user);
+        var token = accessTokenGenerator.Generate(user);
+
+        User_TeamMember = new UserIdentityManager(user, rawPassword, token);
 
         dbContext.Users.Add(user);
 
         dbContext.SaveChanges();
-    }
 
-    private void InitializeBarberShopDatabase(BarberBossDbContext dbContext)
+        return user;
+    } 
+
+    private BarberShop InitializeBarberShopDatabase(BarberBossDbContext dbContext)
     {
         var shop = BarberShopBuilder.Build();
-        ShopId = shop.Id;
+        
+        Shop = new BarberShopIdentityManager(shop);
 
         dbContext.BarberShops.Add(shop);
+
+        dbContext.SaveChanges();
+
+        return shop;
+    }
+
+    private void InitializeInvoiceDatabase(BarberBossDbContext dbContext, User  user, BarberShop shop)
+    {
+        var invoices = InvoiceBuilder.Collection(user, shop);
+
+        Invoice = new InvoiceIdentityManager(invoices[0]);
+
+        dbContext.Invoices.AddRange(invoices);
 
         dbContext.SaveChanges();
     }

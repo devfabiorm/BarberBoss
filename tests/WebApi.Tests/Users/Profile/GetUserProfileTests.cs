@@ -12,9 +12,9 @@ public class GetUserProfileTests : BarberBossClassFixture
 
     public GetUserProfileTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _name = webApplicationFactory.UserName;
-        _email = webApplicationFactory.UserEmail;
-        _token = webApplicationFactory.UserToken;
+        _name = webApplicationFactory.User_TeamMember.GetName();
+        _email = webApplicationFactory.User_TeamMember.GetEmail();
+        _token = webApplicationFactory.User_TeamMember.GetToken();
     }
 
     [Fact]

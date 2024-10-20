@@ -10,7 +10,7 @@ public class DeleteUserAccountTests : BarberBossClassFixture
 
     public DeleteUserAccountTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _token = webApplicationFactory.UserToken;
+        _token = webApplicationFactory.User_TeamMember.GetToken();
     }
 
     [Fact]

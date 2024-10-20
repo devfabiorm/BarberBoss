@@ -3,8 +3,6 @@ using CommonTestUtilities.Requests;
 using FluentAssertions;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Tests.InlineData;
 
@@ -18,8 +16,8 @@ public class DoLoginTests : BarberBossClassFixture
 
     public DoLoginTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _userEmail = webApplicationFactory.UserEmail;
-        _userPassword = webApplicationFactory.UserPassword;
+        _userEmail = webApplicationFactory.User_TeamMember.GetEmail();
+        _userPassword = webApplicationFactory.User_TeamMember.GetPassword();
     }
 
     [Fact]

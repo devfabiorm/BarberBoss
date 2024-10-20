@@ -1,21 +1,17 @@
 ﻿using FluentAssertions;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebApi.Tests.Users.Profile;
-public class GetUserProfileTests : IClassFixture<CustomWebApplicationFactory>
+public class GetUserProfileTests : BarberBossClassFixture
 {
     private const string METHOD = "api/Users";
     private readonly string _name;
     private readonly string _token;
     private readonly string _email;
 
-    private readonly HttpClient _httpClient;
-
-    public GetUserProfileTests(CustomWebApplicationFactory webApplicationFactory)
+    public GetUserProfileTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _httpClient = webApplicationFactory.CreateClient();
         _name = webApplicationFactory.UserName;
         _email = webApplicationFactory.UserEmail;
         _token = webApplicationFactory.UserToken;
@@ -24,9 +20,7 @@ public class GetUserProfileTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Success()
     {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-
-        var response = await _httpClient.GetAsync(METHOD);
+        var response = await DoGetAsync(METHOD, token: _token);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 

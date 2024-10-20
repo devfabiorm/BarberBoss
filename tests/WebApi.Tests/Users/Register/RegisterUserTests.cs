@@ -3,21 +3,16 @@ using CommonTestUtilities.Requests;
 using FluentAssertions;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.Users.Register;
-public class RegisterUserTests : IClassFixture<CustomWebApplicationFactory>
+public class RegisterUserTests : BarberBossClassFixture
 {
     private const string METHOD = "api/Users";
 
-    private readonly HttpClient _httpClient;
-
-    public RegisterUserTests(CustomWebApplicationFactory webApplicationFactory)
+    public RegisterUserTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _httpClient = webApplicationFactory.CreateClient();
     }
 
     [Fact]
@@ -25,7 +20,7 @@ public class RegisterUserTests : IClassFixture<CustomWebApplicationFactory>
     {
         var request = RequestRegisterUserJsonBuilder.Build();
 
-        var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var result = await DoPostAsync(METHOD, request);
 
         result.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -44,8 +39,7 @@ public class RegisterUserTests : IClassFixture<CustomWebApplicationFactory>
         var request = RequestRegisterUserJsonBuilder.Build();
         request.Name = string.Empty;
 
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
-        var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var result = await DoPostAsync(METHOD, request, language: language);
 
         result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 

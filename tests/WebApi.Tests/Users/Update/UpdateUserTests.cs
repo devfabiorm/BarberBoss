@@ -3,24 +3,18 @@ using CommonTestUtilities.Requests;
 using FluentAssertions;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.Users.Update;
-public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory>
+public class UpdateUserTests : BarberBossClassFixture
 {
     private const string METHOD = "api/Users";
 
     private readonly string _token;
 
-    private readonly HttpClient _httpClient;
-
-    public UpdateUserTests(CustomWebApplicationFactory webApplicationFactory)
+    public UpdateUserTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _httpClient = webApplicationFactory.CreateClient();
-
         _token = webApplicationFactory.UserToken;
     }
 
@@ -29,9 +23,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory>
     {
         var request = RequestUpdateUserJsonBuilder.Build();
 
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-
-        var response = await _httpClient.PutAsJsonAsync(METHOD, request);
+        var response = await DoPutAsync(METHOD, request, token: _token);
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -43,10 +35,7 @@ public class UpdateUserTests : IClassFixture<CustomWebApplicationFactory>
         var request = RequestUpdateUserJsonBuilder.Build();
         request.Name = string.Empty;
 
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-
-        var response = await _httpClient.PutAsJsonAsync(METHOD, request);
+        var response = await DoPutAsync(METHOD, request, token: _token, language: language);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 

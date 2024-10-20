@@ -9,17 +9,15 @@ using System.Text.Json;
 using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.Login.DoLogin;
-public class DoLoginTests : IClassFixture<CustomWebApplicationFactory>
+public class DoLoginTests : BarberBossClassFixture
 {
-    private readonly HttpClient _httpClient;
 
     private const string METHOD = "api/Login";
     private readonly string _userEmail;
     private readonly string _userPassword;
 
-    public DoLoginTests(CustomWebApplicationFactory webApplicationFactory)
+    public DoLoginTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
-        _httpClient = webApplicationFactory.CreateClient();
         _userEmail = webApplicationFactory.UserEmail;
         _userPassword = webApplicationFactory.UserPassword;
     }
@@ -31,7 +29,7 @@ public class DoLoginTests : IClassFixture<CustomWebApplicationFactory>
         request.Email = _userEmail;
         request.Password = _userPassword;
 
-        var response = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var response = await DoPostAsync(METHOD, request);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -49,8 +47,7 @@ public class DoLoginTests : IClassFixture<CustomWebApplicationFactory>
         var request = RequestLoginJsonBuilder.Build();
         request.Password = _userPassword;
 
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
-        var response = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var response = await DoPostAsync(METHOD, request, language: language);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -71,8 +68,7 @@ public class DoLoginTests : IClassFixture<CustomWebApplicationFactory>
         var request = RequestLoginJsonBuilder.Build();
         request.Email = _userEmail;
 
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
-        var response = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var response = await DoPostAsync(METHOD, request, language: language);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 

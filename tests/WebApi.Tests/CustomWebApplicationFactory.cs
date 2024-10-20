@@ -15,6 +15,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     public string UserPassword { get; private set; } = string.Empty;
     public string UserToken { get; private set; } = string.Empty;
     public long UserId { get; private set; }
+    public long ShopId { get; private set; }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -36,11 +37,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 var passwordEncrypter = scope.ServiceProvider.GetRequiredService<IPasswordEncrypter>();
                 var accessTokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
 
-                InitializeDatabase(dbContext, passwordEncrypter, accessTokenGenerator);
+                InitializeUserDatabase(dbContext, passwordEncrypter, accessTokenGenerator);
+                InitializeBarberShopDatabase(dbContext);
             });
     }
 
-    private void InitializeDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
+    private void InitializeUserDatabase(BarberBossDbContext dbContext, IPasswordEncrypter passwordEncrypter, IAccessTokenGenerator accessTokenGenerator)
     {
        var user =  UserBuilder.Build();
 
@@ -54,6 +56,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         UserToken = accessTokenGenerator.Generate(user);
 
         dbContext.Users.Add(user);
+
+        dbContext.SaveChanges();
+    }
+
+    private void InitializeBarberShopDatabase(BarberBossDbContext dbContext)
+    {
+        var shop = BarberShopBuilder.Build();
+        ShopId = shop.Id;
+
+        dbContext.BarberShops.Add(shop);
 
         dbContext.SaveChanges();
     }

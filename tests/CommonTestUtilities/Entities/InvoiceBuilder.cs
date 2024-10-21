@@ -34,6 +34,7 @@ public class InvoiceBuilder
             .RuleFor(invoice => invoice.BarberShopId, _ => barberShop.Id)
             .RuleFor(invoice => invoice.Description, faker => faker.Commerce.ProductDescription())
             .RuleFor(invoice => invoice.Title, faker => faker.Commerce.ProductName())
-            .RuleFor(invoice => invoice.PaymentType, faker => faker.PickRandom<EPaymentType>());
+            .RuleFor(invoice => invoice.PaymentType, faker => faker.PickRandom<EPaymentType>())
+            .RuleFor(invoice => invoice.Amount, faker => faker.Random.Decimal(min: 1, max: 1000));
     }
 }

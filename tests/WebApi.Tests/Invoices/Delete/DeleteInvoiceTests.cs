@@ -11,7 +11,7 @@ public class DeleteInvoiceTests : BarberBossClassFixture
     public DeleteInvoiceTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         _token = webApplicationFactory.User_TeamMember.GetToken();
-        _id = webApplicationFactory.Invoice.GetId();
+        _id = webApplicationFactory.Invoice_TeamMember.GetId();
     }
 
     [Fact]

@@ -17,7 +17,7 @@ public class UpdateInvoiceTests : BarberBossClassFixture
     public UpdateInvoiceTests(CustomWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         _token = webApplicationFactory.User_TeamMember.GetToken();
-        _invoiceId = webApplicationFactory.Invoice.GetId();
+        _invoiceId = webApplicationFactory.Invoice_TeamMember.GetId();
     }
 
     [Fact]

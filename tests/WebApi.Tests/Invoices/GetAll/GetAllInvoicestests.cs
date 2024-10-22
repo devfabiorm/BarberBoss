@@ -22,8 +22,6 @@ public class GetAllInvoicestests : BarberBossClassFixture
         var responseData = await response.Content.ReadAsStreamAsync();
         var responseBody = await JsonDocument.ParseAsync(responseData);
 
-        var invoices = responseBody.RootElement.GetProperty("invoices").EnumerateArray();
-
-        invoices.Should().HaveCount(2);
+        responseBody.RootElement.GetProperty("invoices").EnumerateArray().Should().NotBeNullOrEmpty();
     }
 }

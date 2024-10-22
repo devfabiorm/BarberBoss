@@ -11,4 +11,6 @@ public class InvoiceIdentityManager
     }
 
     public long GetId() => _invoice.Id;
+
+    public DateTime GetDate() => _invoice.Date;
 }

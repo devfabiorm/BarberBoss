@@ -5,14 +5,14 @@ using Bogus;
 namespace CommonTestUtilities.Entities;
 public class InvoiceBuilder
 {
-    public static List<Invoice> Collection(User user, BarberShop barberShop, uint count = 2)
+    public static List<Invoice> Collection(User user, BarberShop barberShop, uint count = 2, uint beginFrom = 0)
     {
         var invoices = new List<Invoice>();
 
         if (count == 0)
             count = 1;
 
-        var invoiceId = 1;
+        var invoiceId = 1 + beginFrom;
 
         for (var i = 0;  i < count; i++)
         {

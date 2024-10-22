@@ -17,10 +17,10 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
         _loggedUser = loggedUser;
     }
 
-    public async Task<byte[]> Execute(DateOnly month)
+    public async Task<byte[]> Execute(DateOnly week)
     {
         var loggedUser = await _loggedUser.Get();
-        var invoices = await _repository.FilterByWeek(month, loggedUser);
+        var invoices = await _repository.FilterByWeek(week, loggedUser);
 
         if (invoices.Count == 0)
         {
@@ -33,7 +33,7 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
         workbook.Style.Font.FontSize = 12;
         workbook.Style.Font.FontName = "Times New Roman";
 
-        var worksheet = workbook.Worksheets.Add(month.ToString("Y"));
+        var worksheet = workbook.Worksheets.Add(week.ToString("Y"));
 
         InsertHeader(worksheet);
 

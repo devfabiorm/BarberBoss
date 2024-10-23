@@ -32,6 +32,7 @@ public class InvoiceBuilder
             .RuleFor(invoice => invoice.UserId, _ => user.Id)
             .RuleFor(invoice => invoice.Date, faker => faker.Date.Past())
             .RuleFor(invoice => invoice.BarberShopId, _ => barberShop.Id)
+            .RuleFor(invoice => invoice.BarberShop, _ => barberShop)
             .RuleFor(invoice => invoice.Description, faker => faker.Commerce.ProductDescription())
             .RuleFor(invoice => invoice.Title, faker => faker.Commerce.ProductName())
             .RuleFor(invoice => invoice.PaymentType, faker => faker.PickRandom<EPaymentType>())

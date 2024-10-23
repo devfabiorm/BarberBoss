@@ -11,4 +11,6 @@ public class BarberShopIdentityManager
     }
 
     public long GetId() => _shop.Id;
+
+    public string GetName() => _shop.Name;
 }

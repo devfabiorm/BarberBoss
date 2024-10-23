@@ -31,6 +31,7 @@ public class BarberShopsController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseBarberShopJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    [Authorize]
     public async Task<IActionResult> GetById([FromRoute] long id,
         [FromServices] IGetBarberShopByIdUseCase useCase)
     {
@@ -59,6 +60,7 @@ public class BarberShopsController : ControllerBase
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete([FromRoute] long id,
         [FromServices] IDeleteBarberShopUseCase useCase)
     {

@@ -19,7 +19,7 @@ public class GenerateInvoiceReportExcelUseCaseTests
         var useCase = CreateUseCase(invoices, user);
 
         //Act
-        var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today));
+        var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today), barberShop.Id);
 
         //Assert
         result.Should().NotBeNull();
@@ -34,7 +34,7 @@ public class GenerateInvoiceReportExcelUseCaseTests
         var useCase = CreateUseCase([], user);
 
         //Act
-        var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today));
+        var result = await useCase.Execute(DateOnly.FromDateTime(DateTime.Today), 1000);
 
         //Assert
         result.Should().NotBeNull();

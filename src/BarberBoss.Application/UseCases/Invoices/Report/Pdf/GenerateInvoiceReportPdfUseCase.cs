@@ -29,10 +29,10 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         GlobalFontSettings.FontResolver = new InvoiceReportFontResolver();
     }
 
-    public async Task<byte[]> Execute(DateOnly date)
+    public async Task<byte[]> Execute(DateOnly date, long shopId)
     {
         var loggedUser = await _loggedUser.Get();
-        var invoices = await _repository.FilterByWeek(date, loggedUser);
+        var invoices = await _repository.FilterByWeek(date, loggedUser, shopId);
 
         if (invoices.Count == 0) 
         {
@@ -42,6 +42,7 @@ public class GenerateInvoiceReportPdfUseCase : IGenerateInvoiceReportPdfUseCase
         var document = CreateDocument(date);
         var style = document.AddStyle("DataCell", "Normal");
         style.ParagraphFormat.Borders.Distance = 8;
+        var shopNme = invoices[0].BarberShop.Name;
 
         var page = CreatePage(document);
 

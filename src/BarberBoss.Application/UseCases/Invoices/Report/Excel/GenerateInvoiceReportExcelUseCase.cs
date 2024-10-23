@@ -17,10 +17,10 @@ public class GenerateInvoiceReportExcelUseCase : IGenerateInvoiceReportExcelUseC
         _loggedUser = loggedUser;
     }
 
-    public async Task<byte[]> Execute(DateOnly week)
+    public async Task<byte[]> Execute(DateOnly week, long shopId)
     {
         var loggedUser = await _loggedUser.Get();
-        var invoices = await _repository.FilterByWeek(week, loggedUser);
+        var invoices = await _repository.FilterByWeek(week, loggedUser, shopId);
 
         if (invoices.Count == 0)
         {

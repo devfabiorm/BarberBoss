@@ -60,17 +60,16 @@ internal class InvoiceRepository : IWriteOnlyInvoiceRepository, IReadOnlyInvoice
         _dbContext.Invoices.Update(invoice);
     }
 
-    public async Task<List<Invoice>> FilterByWeek(DateOnly date, User user)
+    public async Task<List<Invoice>> FilterByWeek(DateOnly date, User user, long shopId)
     {
         var beginningOfTheWeek = date.AddDays(DayOfWeek.Sunday - date.DayOfWeek);
         var startDate = new DateTime(year: beginningOfTheWeek.Year, month: beginningOfTheWeek.Month, day: beginningOfTheWeek.Day, hour: 0, minute: 0, second: 0);
         var dateToBeTheEnd = startDate.AddDays(NUMBER_OF_DAYS_BY_WEEK - 1);
         var endDate = new DateTime(year: dateToBeTheEnd.Year, month: dateToBeTheEnd.Month, day: dateToBeTheEnd.Day, hour: 23, minute: 59, second: 59);
 
-        return await _dbContext
-            .Invoices
+        return await GetFullInvoice()
             .AsNoTracking()
-            .Where(invoice => invoice.Date >= startDate && invoice.Date <= endDate && invoice.UserId == user.Id)
+            .Where(invoice => invoice.Date >= startDate && invoice.Date <= endDate && invoice.UserId == user.Id && invoice.BarberShopId == shopId)
             .OrderBy(invoice => invoice.Date)
             .ThenBy(invoice => invoice.Title)
             .ToListAsync();

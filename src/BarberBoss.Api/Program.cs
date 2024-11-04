@@ -4,9 +4,11 @@ using BarberBoss.Api.Token;
 using BarberBoss.Application;
 using BarberBoss.Domain.Security.Token;
 using BarberBoss.Infrastructure;
+using BarberBoss.Infrastructure.DataAccess;
 using BarberBoss.Infrastructure.Extensions;
 using BarberBoss.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -74,7 +76,19 @@ builder.Services.AddAuthentication(config =>
     };
 });
 
+builder.Services.AddHealthChecks().AddDbContextCheck<BarberBossDbContext>();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/Health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    AllowCachingResponses = false,
+    ResultStatusCodes =
+    {
+        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+    }
+});
 
 if (app.Environment.IsDevelopment())
 {

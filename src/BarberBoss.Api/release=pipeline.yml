@@ -1,0 +1,24 @@
+﻿trigger:
+- master
+
+variables:
+  dockerRegistryServiceConnection: 'fe85fb53-1db4-4de2-a4a7-c39d53cd8736'
+  imageRepository: 'apibarberboss'
+  containerRegistry: 'apibarberboss.azurecr.io'
+  dockerfilePath: 'Dockerfile'
+  tag: '$(Build.BuildId)'
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  inputs:
+    command: buildAndPush
+    repository: $(imageRepository)
+    dockerfile: $(dockerfilePath)
+    containerRegistry: $(dockerRegistryServiceConnection)
+    tags: |
+      latest
+      $(tag)

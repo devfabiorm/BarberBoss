@@ -1,0 +1,18 @@
+﻿name: Build & Run Tests BarberBoss API
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build Solutuion
+  inputs:
+    command: build
+
+- task: DotNetCoreCLI@2
+  displayName: Run Unit & Integration Tests
+  inputs:
+    command: test

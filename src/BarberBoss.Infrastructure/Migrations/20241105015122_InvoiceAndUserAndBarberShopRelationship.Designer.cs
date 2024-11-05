@@ -4,6 +4,7 @@ using BarberBoss.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberBoss.Infrastructure.Migrations
 {
     [DbContext(typeof(BarberBossDbContext))]
-    partial class BarberBossDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105015122_InvoiceAndUserAndBarberShopRelationship")]
+    partial class InvoiceAndUserAndBarberShopRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

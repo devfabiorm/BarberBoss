@@ -2,8 +2,8 @@
 - master
 
 variables:
-  dockerRegistryServiceConnection: 'fe85fb53-1db4-4de2-a4a7-c39d53cd8736'
-  imageRepository: 'apibarberboss'
+  dockerRegistryServiceConnection: '7146df36-32ae-4c47-9a14-dd03529396a3'
+  imageRepository: 'barberboss'
   containerRegistry: 'apibarberboss.azurecr.io'
   dockerfilePath: 'Dockerfile'
   tag: '$(Build.BuildId)'
@@ -12,6 +12,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: DownloadSecureFile@1
+  name: appSettings
+  displayName: Downloading appsettings.Production.json file
+  inputs:
+    secureFile: appsettings.Production.json
+
+- script: |
+    cp $(appSettings.secureFilePath) src/BarberBoss.Api/appsettings.Production.json
+
 - task: Docker@2
   displayName: Build and push an image to container registry
   inputs:

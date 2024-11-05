@@ -26,12 +26,14 @@ public class InvoiceRegisterValidatorTests
     [InlineData("")]
     [InlineData("    ")]
     [InlineData(null)]
-    public void Error_Title_Empty(string title)
+    public void Error_Title_Empty(string? title)
     {
         //Arrange
         var validator = new InvoiceValidator();
         var request = RequestInvoiceJsonBuilder.Build();
+#pragma warning disable CS8601 // Possible null reference assignment.
         request.Title = title;
+#pragma warning restore CS8601 // Possible null reference assignment.
 
         //Act
         var result = validator.Validate(request);
